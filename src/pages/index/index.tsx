@@ -4,7 +4,7 @@ import { useLoad } from "@tarojs/taro";
 import "./index.less";
 /* assets */
 // 引用文件
-import namedPng from "../../assets/header.png";
+// import namedPng from "../../assets/header.png";
 
 export default function Index() {
   useLoad(() => {
@@ -21,7 +21,8 @@ export default function Index() {
           <Text className="welcome">欢迎使用菠萝储能BMS</Text>
         </View>
       </View>
-      <Image className="headerimg" src={namedPng}></Image>
+      {/* <Image className="headerimg" src={namedPng}></Image> */}
+      <View className="headerimg"></View>
       {devicesArray.map((item) => (
         <View>
           <DevicesList />

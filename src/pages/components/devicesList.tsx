@@ -16,6 +16,9 @@ export default function DevicesList() {
   });
   return (
     <View className="card">
+      <View className="position-num">
+        <Text>70%</Text>
+      </View>
       <View className="card-top">
         <View>
           <Text className="deviceName">设备一(已连接)</Text>
@@ -39,11 +42,11 @@ export default function DevicesList() {
               <Image src={dianliu}></Image>
               <Text>电流: 0.2A</Text>
             </View>
-            <View className="icontext">
+            <View className="icontext itbottom">
               <Image src={dianchi}></Image>
               <Text>状态: 正常</Text>
             </View>
-            <View className="icontext">
+            <View className="icontext itbottom">
               <Image src={wendu}></Image>
               <Text>温度: 23℃</Text>
             </View>

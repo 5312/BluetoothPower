@@ -1,11 +1,12 @@
 const config = {
   projectName: "bluetoothPower",
   date: "2023-5-6",
-  designWidth: 640,
+  designWidth: 375,
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
     828: 1.81 / 2,
+    375: 1.1 / 1,
   },
   sourceRoot: "src",
   outputRoot: "dist",

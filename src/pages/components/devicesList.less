@@ -1,15 +1,21 @@
 .card {
   height: 302px;
-  padding: 30px;
+  padding: 15px;
   border-radius: 12px 12px 12px 12px;
   font-size: 0;
-
-  background: url(../../assets/card-bg.png) 0 0 / 100% 100% no-repeat;
+  margin: 0 15px;
+  /* prettier-ignore */
+  box-shadow:6Px 0Px 13Px 0Px #1d202357;
+  border-radius: 12px 12px 12px 12px;
   .card-top {
     display: flex;
     justify-content: space-between;
-    font-size: 25px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: Bold;
+    padding: 0 15px;
+    .iconright {
+      opacity: 30%;
+    }
   }
   .card-center-flex {
     display: flex;
@@ -18,7 +24,11 @@
     .card-center {
       width: 65%;
       .card-center-icon {
-        padding: 15px 0;
+        margin-top: 26px;
+        margin-bottom: 20px;
+        .wifi {
+          margin-left: 20px;
+        }
         image {
           width: 62px;
           height: 62px;
@@ -29,7 +39,10 @@
         flex-wrap: wrap;
         align-items: center;
         .icontext {
-          margin: 10px 0;
+          margin: 15px 0;
+          &:nth-child(2n) {
+            margin-left: 50px;
+          }
           image {
             width: 62px;
             height: 62px;

@@ -11,6 +11,7 @@ export default function Index() {
     console.log("Page loaded.");
   });
 
+  const devicesArray = [1, 2, 3];
   return (
     <View className="index">
       <View className="topHeight"></View>
@@ -21,7 +22,12 @@ export default function Index() {
         </View>
       </View>
       <Image className="headerimg" src={namedPng}></Image>
-      <DevicesList />
+      {devicesArray.map((item) => (
+        <View>
+          <DevicesList />
+          <View className="height"></View>
+        </View>
+      ))}
     </View>
   );
 }

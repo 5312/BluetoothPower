@@ -14,7 +14,6 @@ export default function DevicesList() {
   useLoad(() => {
     console.log("Page loaded.");
   });
-
   return (
     <View className="card">
       <View className="card-top">
@@ -22,15 +21,14 @@ export default function DevicesList() {
           <Text className="deviceName">设备一(已连接)</Text>
         </View>
         <View>
-          <View className="at-icon at-icon-chevron-right"></View>
-          {/* <Icon size="60" type="success" /> */}
+          <View className="iconright at-icon at-icon-chevron-right"></View>
         </View>
       </View>
       <View className="card-center-flex">
         <View className="card-center">
           <View className="card-center-icon">
             <Image src={blueTooth}></Image>
-            <Image src={wifi}></Image>
+            <Image src={wifi} className="wifi"></Image>
           </View>
           <View className="card-bottom-icon">
             <View className="icontext">

@@ -13,6 +13,7 @@ export default function Index() {
 
   return (
     <View className="index">
+      <View className="topHeight"></View>
       <View className="title">
         <Text className="hi">Hi~ !</Text>
         <View>

@@ -82,8 +82,8 @@ export default function Index() {
       </View>
       {/* <Image className="headerimg" src={namedPng}></Image> */}
       <View className="headerimg"></View>
-      {devicesArray.map((item) => (
-        <View>
+      {devicesArray.map((item, i) => (
+        <View key={i}>
           <DevicesList />
           <View className="height"></View>
         </View>

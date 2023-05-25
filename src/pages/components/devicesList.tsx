@@ -1,3 +1,4 @@
+import Taro from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { useLoad } from "@tarojs/taro";
 
@@ -14,8 +15,14 @@ export default function DevicesList() {
   useLoad(() => {
     console.log("Page loaded.");
   });
+
+  function toDetail() {
+    Taro.navigateTo({
+      url: "/pages/detail/detail",
+    });
+  }
   return (
-    <View className="card">
+    <View className="card" onClick={toDetail}>
       <View className="position-num">
         <Text>70%</Text>
       </View>

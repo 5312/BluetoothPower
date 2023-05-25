@@ -1,6 +1,6 @@
 export default defineAppConfig({
   lazyCodeLoading: "requiredComponents",
-  pages: ["pages/index/index"],
+  pages: ["pages/index/index", "pages/detail/detail"],
   requiredPrivateInfos: ["getLocation", "chooseLocation"],
   permission: {
     "scope.userLocation": {

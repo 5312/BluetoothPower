@@ -1,5 +1,5 @@
 {
-  "name": "bluetoothPower",
+  "name": "bluetooth-power",
   "version": "1.0.0",
   "private": true,
   "description": "蓝牙连接设备信息小程序",
@@ -52,7 +52,7 @@
     "@tarojs/taro": "3.6.6",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "taro-ui": "^2.3.4"
+    "taro-ui": "3.1.0-beta.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

@@ -3,6 +3,7 @@ import { useLaunch } from "@tarojs/taro";
 import "./app.less";
 // app.js
 import "taro-ui/dist/style/index.scss"; // 全局引入一次即可
+import "./assets/font/iconfont.css";
 
 function App({ children }: PropsWithChildren) {
   useLaunch(() => {

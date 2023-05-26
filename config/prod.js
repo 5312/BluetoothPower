@@ -1,8 +1,24 @@
 module.exports = {
   env: {
-    NODE_ENV: '"production"'
+    NODE_ENV: '"production"',
   },
-  defineConstants: {
+  defineConstants: {},
+  // 小程序端专用配置
+  weapp: {
+    module: {
+      postcss: {
+        autoprefixer: {
+          enable: true,
+        },
+        // 小程序端样式引用本地资源内联配置
+        url: {
+          enable: true,
+          config: {
+            limit: 10240, // 文件大小限制
+          },
+        },
+      },
+    },
   },
   mini: {},
   h5: {
@@ -17,7 +33,6 @@ module.exports = {
     //    */
     //   chain.plugin('analyzer')
     //     .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin, [])
-
     //   /**
     //    * 如果 h5 端首屏加载时间过长，可以使用 prerender-spa-plugin 插件预加载首页。
     //    * @docs https://github.com/chrisvfritz/prerender-spa-plugin
@@ -33,5 +48,5 @@ module.exports = {
     //       postProcess: (context) => ({ ...context, outputPath: path.join(staticDir, 'index.html') })
     //     }))
     // }
-  }
-}
+  },
+};

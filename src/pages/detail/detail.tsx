@@ -1,8 +1,21 @@
+import Taro from "@tarojs/taro";
+import { AtIcon } from "taro-ui";
 import { View, Text, Image } from "@tarojs/components";
 import "./detail.less";
 
 import devices from "../../assets/devices.png";
 import dianyaDisabled from "../../assets/dianya-disabled.png";
+import dianliu from "../../assets/dianya-copy.png";
+import gl from "../../assets/gl.png";
+import gdy from "../../assets/gdy.png";
+import dy from "../../assets/dy.png";
+import pjdy from "../../assets/pjdy.png";
+import yc from "../../assets/yc.png";
+import zxh from "../../assets/zxh.png";
+import wendu from "../../assets/wendu.png";
+import xtdy from "../../assets/xtdy.png";
+import xtdl from "../../assets/xtdl.png";
+import chong from "../../assets/chong.png";
 
 export default function Detail() {
   const devicesArray = [
@@ -23,6 +36,30 @@ export default function Detail() {
     { icon: "at-icon-settings", sub: "电池状态", type: 0 },
     { icon: "at-icon-settings", sub: "电池状态", type: 1 },
   ];
+  const setting3 = [
+    { img: dianyaDisabled, sub: "电池状态", type: 0 },
+    { img: dianliu, sub: "电流", value: "36A" },
+    { img: gl, sub: "功率", value: 0 },
+    { img: gdy, sub: "最高电压", value: 1 },
+    { img: dy, sub: "最低电压", value: 1 },
+    { img: pjdy, sub: "平均电压", value: 1 },
+    { img: yc, sub: "压差", value: 1 },
+    { img: zxh, sub: "总循环", value: 1 },
+    { img: wendu, sub: "电池温度", value: 1 },
+    { img: xtdy, sub: "系统电压", value: 1 },
+    { img: xtdl, sub: "系统电流", value: 1 },
+    {
+      img: dianyaDisabled,
+      sub: "充电电流",
+      value: 1,
+    },
+  ];
+
+  function toindex() {
+    Taro.redirectTo({
+      url: "/pages/index/index",
+    });
+  }
   return (
     <View>
       <View className="topHeight"></View>
@@ -35,7 +72,15 @@ export default function Detail() {
               <Text className="device">设备1</Text>
             </View>
           </View>
-          <View className="list-text"></View>
+          <View className="list-text" onClick={toindex}>
+            <AtIcon
+              prefixClass="iconfont"
+              value="chongdianzhuang"
+              size="20"
+              color="#fff"
+            ></AtIcon>
+            <Text>设备列表</Text>
+          </View>
         </View>
         <View className="center">
           <Image className="img" src={devices}></Image>
@@ -105,14 +150,39 @@ export default function Detail() {
         </View>
       </View>
       <View className="card mt">
-        <View>
-          <View className="flex ">
-            <Image src={dianyaDisabled}></Image>
-            <View>总电压:</View>
-            <View>36V</View>
+        <View className="settinglist">
+          {setting3.map((item, i) => (
+            <View className=" settingitem" key={i}>
+              <Image className="iconimg" src={item.img}></Image>
+              <View className="name">{item.sub}:</View>
+              <View>36V</View>
+            </View>
+          ))}
+        </View>
+      </View>
+      <View className="mess">
+        <View className="card mt w-2">
+          <View className="card-top">
+            <View>
+              <View className="deviceName">
+                <View className="rectangle"></View>
+                <Text className="d_name">保护信息</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View className="card mt w-2">
+          <View className="card-top">
+            <View>
+              <View className="deviceName">
+                <View className="rectangle"></View>
+                <Text className="d_name">告警信息</Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>
+      <View className="bottom"></View>
     </View>
   );
 }

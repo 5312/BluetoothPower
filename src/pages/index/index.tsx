@@ -18,7 +18,7 @@ async function bluetoothStar() {
       content: "请打开蓝牙后重试",
       success: function (res) {
         if (res.confirm) {
-          Taro.navigateTo({
+          Taro.reLaunch({
             url: "/pages/index/index",
           });
         } else if (res.cancel) {
@@ -82,8 +82,8 @@ export default function Index() {
       </View>
       {/* <Image className="headerimg" src={namedPng}></Image> */}
       <View className="headerimg"></View>
-      {devicesArray.map((item, i) => (
-        <View key={i}>
+      {devicesArray.map((item) => (
+        <View key={item}>
           <DevicesList />
           <View className="height"></View>
         </View>

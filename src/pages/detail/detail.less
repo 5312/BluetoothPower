@@ -42,8 +42,18 @@ page {
       .list-text {
         width: 150px;
         height: 55px;
-        background: url(../../assets/devicelist.png) left top / 100% 100%
-          no-repeat;
+        background-color: #4897ff;
+        color: #fff;
+        text-align: center;
+        line-height: 55px;
+        border-radius: 10px;
+        padding: 5px;
+        text {
+          vertical-align: middle;
+          font-size: 22px;
+          font-weight: 300;
+          margin-left: 5px;
+        }
       }
     }
     .center {
@@ -142,7 +152,7 @@ page {
               line-height: 50px;
               z-index: 2;
               /* prettier-ignore */
-              box-shadow:6Px 0Px 13Px 0Px rgb(29 32 35 / 25%);
+              box-shadow:-1Px 0Px 13Px -9Px rgb(29 32 35 / 25%);
               .soc {
                 font-size: 20px;
                 color: #4a98ff;
@@ -164,17 +174,13 @@ page {
               height: 100%;
               float: left;
 
-              .bordered {
+              @borderRadius: 98px;
+              .right {
                 width: 100%;
                 height: 100%;
                 position: absolute;
                 top: 0;
-                background-color: #ddd;
-              }
-              @borderRadius: 98px;
-              .right {
-                /* stylelint-disable-next-line CssSyntaxError */
-                .bordered ();
+                background-color: #f6f9ff;
 
                 border-radius: 0px @borderRadius @borderRadius 0;
                 right: 0;
@@ -182,7 +188,11 @@ page {
                 transform-origin: left center;
               }
               .left {
-                .bordered ();
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                background-color: #f6f9ff;
                 border-radius: @borderRadius 0px 0 @borderRadius;
                 left: 0;
                 transform: rotate(60deg);
@@ -213,8 +223,44 @@ page {
         }
       }
     }
+
+    .settinglist {
+      font-size: 20px;
+      display: flex;
+      flex-flow: wrap row;
+      justify-content: space-between;
+      align-items: center;
+
+      .settingitem {
+        width: 30%;
+        padding: 12px 5px;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        .iconimg {
+          width: 50px;
+          height: 50px;
+          margin-right: 5px;
+        }
+        .name {
+          padding: 5px;
+        }
+      }
+    }
   }
   .mt {
     margin-top: 20px;
+  }
+  .mess {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .w-2 {
+      width: 49%;
+    }
+  }
+
+  .bottom {
+    height: 30px;
   }
 }

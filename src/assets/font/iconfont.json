@@ -1,0 +1,16 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "13672652",
+      "name": "充电桩",
+      "font_class": "chongdianzhuang",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    }
+  ]
+}

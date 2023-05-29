@@ -1,6 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import DevicesList from "../components/devicesList";
-import { useLoad } from "@tarojs/taro";
+import { useLoad, useUnload } from "@tarojs/taro";
 import Taro from "@tarojs/taro";
 import "./index.less";
 
@@ -18,8 +18,13 @@ async function bluetoothStar() {
       content: "请打开蓝牙后重试",
       success: function (res) {
         if (res.confirm) {
-          Taro.reLaunch({
-            url: "/pages/index/index",
+          // Taro.reLaunch({
+          //   url: "/pages/index/index",
+          // });
+          Taro.showToast({
+            title: "蓝牙未打开",
+            icon: "none",
+            duration: 2000,
           });
         } else if (res.cancel) {
           console.log("用户点击取消");
@@ -28,6 +33,7 @@ async function bluetoothStar() {
     });
     return;
   }
+  // 初始化蓝牙模块
   let res;
   try {
     const { errMsg } = await Taro.openBluetoothAdapter();
@@ -48,10 +54,12 @@ async function bluetoothStar() {
       duration: 2000,
     });
   }
-
+  // 监听蓝牙适配器状态变化事件
+  Taro.onBluetoothAdapterStateChange(function (res) {
+    console.log("adapterState changed, now is", res);
+  });
   await Taro.getLocation({});
   const data: any = await Taro.startBluetoothDevicesDiscovery({});
-  console.log(data);
   if (data.isDiscovering || data) {
     onDiscoveryBLE();
   }
@@ -69,7 +77,13 @@ export default function Index() {
   useLoad(() => {
     console.log("Page loaded.");
   });
-
+  useUnload(() => {
+    Taro.closeBluetoothAdapter({
+      success: function (res) {
+        console.log("蓝牙已关闭", res);
+      },
+    });
+  });
   const devicesArray = [1, 2, 3];
   return (
     <View className="index">

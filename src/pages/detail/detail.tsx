@@ -26,15 +26,15 @@ export default function Detail() {
   ];
   const settingList = [
     { icon: "dianchi", sub: "电池状态", type: 1 },
-    { icon: "dianliang_huaban", sub: "电池状态", type: 0 },
+    // { icon: "dianliang_huaban", sub: "电池状态", type: 0 },
     { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
-    { icon: "chongdianzhong", sub: "充电MOS", type: 1 },
+    // { icon: "chongdianzhong", sub: "充电MOS", type: 1 },
   ];
   const settingList2 = [
     { icon: "dianliang_huaban", sub: "放电MOS", type: 0 },
-    { icon: "dianliang_huaban", sub: "放电MOS", type: 1 },
+    // { icon: "dianliang_huaban", sub: "放电MOS", type: 1 },
     { icon: "fuzaijunheng", sub: "均衡状态", type: 0 },
-    { icon: "fuzaijunheng", sub: "均衡状态", type: 1 },
+    // { icon: "fuzaijunheng", sub: "均衡状态", type: 1 },
   ];
   const setting3 = [
     { img: dianyaDisabled, sub: "电池状态", type: 0 },
@@ -76,7 +76,7 @@ export default function Detail() {
             <AtIcon
               prefixClass="iconfont"
               value="chongdianzhuang"
-              size="20"
+              size="18"
               color="#fff"
             ></AtIcon>
             <Text>设备列表</Text>
@@ -167,7 +167,7 @@ export default function Detail() {
             <View className=" settingitem" key={i}>
               <Image className="iconimg" src={item.img}></Image>
               <View className="name">{item.sub}:</View>
-              <View>36V</View>
+              <View className="name">36V</View>
             </View>
           ))}
         </View>

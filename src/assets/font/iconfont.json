@@ -6,11 +6,39 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7088558",
+      "name": "负载均衡",
+      "font_class": "fuzaijunheng",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "11749367",
+      "name": "电池",
+      "font_class": "dianchi",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "12754404",
+      "name": "电量",
+      "font_class": "dianliang_huaban",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "13672652",
       "name": "充电桩",
       "font_class": "chongdianzhuang",
       "unicode": "e672",
       "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "18211358",
+      "name": "充电中",
+      "font_class": "chongdianzhong",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
     }
   ]
 }

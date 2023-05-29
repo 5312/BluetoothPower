@@ -5,7 +5,6 @@ page {
     height: 160px;
   }
   .card {
-    height: 292px;
     padding: 15px;
     border-radius: 12px 12px 12px 12px;
     font-size: 0;
@@ -115,11 +114,16 @@ page {
           line-height: 30px;
           padding: 10px;
           border-radius: 15px;
+          font-size: 16px;
 
+          /* prettier-ignore */
+          box-shadow:6Px 0Px 13Px 0Px rgb(29 32 35 / 25%);
           .at-icon {
             font-size: 30px;
           }
-          font-size: 16px;
+          .sub {
+            white-space: nowrap;
+          }
         }
       }
       .echartsBox {
@@ -164,6 +168,7 @@ page {
               }
               .subtitle {
                 font-size: 18px;
+                color: #656565;
               }
             }
             .left_box,
@@ -209,17 +214,20 @@ page {
       }
 
       .end {
-        height: 100%;
+        position: relative;
+        top: -60px;
+        left: 10px;
+        font-size: 0px;
         .setting {
           background-color: #4897ff;
           color: #fff;
-          font-size: 35px;
-          padding: 5px;
-          width: 50px;
-          height: 50px;
-          line-height: 45px;
-          text-align: center;
-          border-radius: 15px;
+          font-size: 0px;
+          display: inline-block;
+          padding: 10px;
+          border-radius: 10px;
+          .at-icon {
+            font-size: 39px;
+          }
         }
       }
     }
@@ -244,6 +252,7 @@ page {
         }
         .name {
           padding: 5px;
+          white-space: nowrap;
         }
       }
     }
@@ -259,7 +268,9 @@ page {
       width: 49%;
     }
   }
-
+  .h-32 {
+    height: 292px;
+  }
   .bottom {
     height: 30px;
   }

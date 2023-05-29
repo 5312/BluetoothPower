@@ -15,7 +15,7 @@ import zxh from "../../assets/zxh.png";
 import wendu from "../../assets/wendu.png";
 import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
-import chong from "../../assets/chong.png";
+import cd from "../../assets/cd.png";
 
 export default function Detail() {
   const devicesArray = [
@@ -25,16 +25,16 @@ export default function Detail() {
     { name: "AD15SDA518", label: "硬件版本号" },
   ];
   const settingList = [
-    { icon: "at-icon-settings", sub: "电池状态", type: 1 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 0 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 0 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 1 },
+    { icon: "dianchi", sub: "电池状态", type: 1 },
+    { icon: "dianliang_huaban", sub: "电池状态", type: 0 },
+    { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
+    { icon: "chongdianzhong", sub: "充电MOS", type: 1 },
   ];
   const settingList2 = [
-    { icon: "at-icon-settings", sub: "电池状态", type: 0 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 1 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 0 },
-    { icon: "at-icon-settings", sub: "电池状态", type: 1 },
+    { icon: "dianliang_huaban", sub: "放电MOS", type: 0 },
+    { icon: "dianliang_huaban", sub: "放电MOS", type: 1 },
+    { icon: "fuzaijunheng", sub: "均衡状态", type: 0 },
+    { icon: "fuzaijunheng", sub: "均衡状态", type: 1 },
   ];
   const setting3 = [
     { img: dianyaDisabled, sub: "电池状态", type: 0 },
@@ -49,7 +49,7 @@ export default function Detail() {
     { img: xtdy, sub: "系统电压", value: 1 },
     { img: xtdl, sub: "系统电流", value: 1 },
     {
-      img: dianyaDisabled,
+      img: cd,
       sub: "充电电流",
       value: 1,
     },
@@ -105,8 +105,14 @@ export default function Detail() {
                     item.type ? "activebgcolor" : "bgcolor"
                   }`}
                 >
-                  <View className="at-icon at-icon-settings"></View>
-                  <View>电池状态</View>
+                  <AtIcon
+                    prefixClass="iconfont"
+                    value={item.icon}
+                    size="20"
+                    className="at-icon"
+                    color={item.type ? "#fff" : "#4897ff"}
+                  ></AtIcon>
+                  <View className="sub">{item.sub}</View>
                 </View>
               ))}
             </View>
@@ -118,8 +124,14 @@ export default function Detail() {
                     item.type ? "activebgcolor" : "bgcolor"
                   }`}
                 >
-                  <View className="at-icon at-icon-settings"></View>
-                  <View>电池状态</View>
+                  <AtIcon
+                    prefixClass="iconfont"
+                    value={item.icon}
+                    size="20"
+                    className="at-icon"
+                    color={item.type ? "#fff" : "#4897ff"}
+                  ></AtIcon>
+                  <View className="sub">{item.sub}</View>
                 </View>
               ))}
             </View>
@@ -161,7 +173,7 @@ export default function Detail() {
         </View>
       </View>
       <View className="mess">
-        <View className="card mt w-2">
+        <View className="card mt w-2 h-32">
           <View className="card-top">
             <View>
               <View className="deviceName">
@@ -171,7 +183,7 @@ export default function Detail() {
             </View>
           </View>
         </View>
-        <View className="card mt w-2">
+        <View className="card mt w-2 h-32">
           <View className="card-top">
             <View>
               <View className="deviceName">

@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url("iconfont.ttf?t=1685093390708") format("truetype");
+  src: url("iconfont.ttf?t=1685335155109") format("truetype");
 }
 
 .iconfont {
@@ -11,6 +11,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.iconfont-fuzaijunheng:before {
+  content: "\e63f";
+}
+
+.iconfont-dianchi:before {
+  content: "\e651";
+}
+
+.iconfont-dianliang_huaban:before {
+  content: "\e642";
+}
+
 .iconfont-chongdianzhuang:before {
   content: "\e672";
+}
+
+.iconfont-chongdianzhong:before {
+  content: "\e7ac";
 }

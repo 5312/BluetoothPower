@@ -26,15 +26,11 @@ export default function Detail() {
   ];
   const settingList = [
     { icon: "dianchi", sub: "电池状态", type: 1 },
-    // { icon: "dianliang_huaban", sub: "电池状态", type: 0 },
     { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
-    // { icon: "chongdianzhong", sub: "充电MOS", type: 1 },
   ];
   const settingList2 = [
     { icon: "dianliang_huaban", sub: "放电MOS", type: 0 },
-    // { icon: "dianliang_huaban", sub: "放电MOS", type: 1 },
     { icon: "fuzaijunheng", sub: "均衡状态", type: 0 },
-    // { icon: "fuzaijunheng", sub: "均衡状态", type: 1 },
   ];
   const setting3 = [
     { img: dianyaDisabled, sub: "电池状态", type: 0 },
@@ -58,6 +54,12 @@ export default function Detail() {
   function toindex() {
     Taro.redirectTo({
       url: "/pages/index/index",
+    });
+  }
+
+  function toSetting() {
+    Taro.navigateTo({
+      url: "/pages/parameters/parameters",
     });
   }
   return (
@@ -155,7 +157,7 @@ export default function Detail() {
             <View className="e-title">总容量: 10000AH</View>
           </View>
           <View className="end">
-            <View className="setting">
+            <View className="setting" onClick={toSetting}>
               <View className="at-icon at-icon-settings"></View>
             </View>
           </View>

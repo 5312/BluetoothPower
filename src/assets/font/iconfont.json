@@ -6,25 +6,67 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "7088558",
-      "name": "负载均衡",
-      "font_class": "fuzaijunheng",
-      "unicode": "e63f",
-      "unicode_decimal": 58943
+      "icon_id": "588159",
+      "name": "材料厂家",
+      "font_class": "cailiaochangjia",
+      "unicode": "e692",
+      "unicode_decimal": 59026
     },
     {
-      "icon_id": "11749367",
+      "icon_id": "763152",
+      "name": "弹性负载均衡",
+      "font_class": "vlb",
+      "unicode": "e729",
+      "unicode_decimal": 59177
+    },
+    {
+      "icon_id": "1986987",
+      "name": "GPRS",
+      "font_class": "GPRS",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "6510092",
+      "name": "系统",
+      "font_class": "xitong",
+      "unicode": "e835",
+      "unicode_decimal": 59445
+    },
+    {
+      "icon_id": "7417087",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "11464294",
       "name": "电池",
       "font_class": "dianchi",
-      "unicode": "e651",
-      "unicode_decimal": 58961
+      "unicode": "e605",
+      "unicode_decimal": 58885
     },
     {
-      "icon_id": "12754404",
-      "name": "电量",
-      "font_class": "dianliang_huaban",
-      "unicode": "e642",
-      "unicode_decimal": 58946
+      "icon_id": "11806564",
+      "name": "电池包",
+      "font_class": "dianchibao",
+      "unicode": "e67b",
+      "unicode_decimal": 59003
+    },
+    {
+      "icon_id": "11808033",
+      "name": "权限",
+      "font_class": "quanxian",
+      "unicode": "e69c",
+      "unicode_decimal": 59036
+    },
+    {
+      "icon_id": "12331651",
+      "name": "电流",
+      "font_class": "dianliu",
+      "unicode": "e665",
+      "unicode_decimal": 58981
     },
     {
       "icon_id": "13672652",
@@ -34,11 +76,39 @@
       "unicode_decimal": 58994
     },
     {
+      "icon_id": "17605421",
+      "name": "温度",
+      "font_class": "wendu",
+      "unicode": "e80f",
+      "unicode_decimal": 59407
+    },
+    {
       "icon_id": "18211358",
       "name": "充电中",
       "font_class": "chongdianzhong",
       "unicode": "e7ac",
       "unicode_decimal": 59308
+    },
+    {
+      "icon_id": "19985106",
+      "name": "电池-低电量",
+      "font_class": "dianchi-didianliang",
+      "unicode": "e7a7",
+      "unicode_decimal": 59303
+    },
+    {
+      "icon_id": "28606916",
+      "name": "电压",
+      "font_class": "dianya",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "35473846",
+      "name": "设置-系统设置",
+      "font_class": "shezhi-xitongshezhi",
+      "unicode": "e569",
+      "unicode_decimal": 58729
     }
   ]
 }

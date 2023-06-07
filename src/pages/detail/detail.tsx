@@ -29,8 +29,8 @@ export default function Detail() {
     { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
   ];
   const settingList2 = [
-    { icon: "dianliang_huaban", sub: "放电MOS", type: 0 },
-    { icon: "fuzaijunheng", sub: "均衡状态", type: 0 },
+    { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
+    { icon: "vlb", sub: "均衡状态", type: 0 },
   ];
   const setting3 = [
     { img: dianyaDisabled, sub: "电池状态", type: 0 },

@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url("iconfont.ttf?t=1685335155109") format("truetype");
+  src: url("iconfont.ttf?t=1686101825789") format("truetype");
 }
 
 .iconfont {
@@ -11,22 +11,62 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.iconfont-fuzaijunheng:before {
-  content: "\e63f";
+.iconfont-cailiaochangjia:before {
+  content: "\e692";
+}
+
+.iconfont-vlb:before {
+  content: "\e729";
+}
+
+.iconfont-GPRS:before {
+  content: "\e624";
+}
+
+.iconfont-xitong:before {
+  content: "\e835";
+}
+
+.iconfont-shezhi:before {
+  content: "\e602";
 }
 
 .iconfont-dianchi:before {
-  content: "\e651";
+  content: "\e605";
 }
 
-.iconfont-dianliang_huaban:before {
-  content: "\e642";
+.iconfont-dianchibao:before {
+  content: "\e67b";
+}
+
+.iconfont-quanxian:before {
+  content: "\e69c";
+}
+
+.iconfont-dianliu:before {
+  content: "\e665";
 }
 
 .iconfont-chongdianzhuang:before {
   content: "\e672";
 }
 
+.iconfont-wendu:before {
+  content: "\e80f";
+}
+
 .iconfont-chongdianzhong:before {
   content: "\e7ac";
+}
+
+.iconfont-dianchi-didianliang:before {
+  content: "\e7a7";
+}
+
+.iconfont-dianya:before {
+  content: "\e6be";
+}
+
+.iconfont-shezhi-xitongshezhi:before {
+  content: "\e569";
 }

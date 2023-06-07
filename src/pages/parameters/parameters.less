@@ -1,4 +1,56 @@
 page {
   height: 100%;
   background: url(../../assets/detail_bg.png) left top / 100% 100% no-repeat;
+  .height {
+    height: 160px;
+  }
+
+  .cardbox {
+    padding: 0 15px;
+    margin-bottom: 30px;
+    .card {
+      height: 150px;
+      text-align: center;
+      margin: 20px 20px;
+      padding: 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-flow: column nowrap;
+
+      // background: #f7f9ff;
+      box-shadow: 6px 0px 29px 0px #b9c3df;
+      border-radius: 20px 20px 20px 20px;
+      opacity: 1;
+      .iconbname {
+        margin-top: 10px;
+        font-size: 25px;
+      }
+    }
+  }
+
+  .shadwbox {
+    padding: 15px;
+    border-radius: 12px 12px 12px 12px;
+    margin: 0 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 12px 12px 12px 12px;
+    position: relative;
+    margin-bottom: 20px;
+    font-size: 0;
+    view {
+      font-size: 20px;
+    }
+  }
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .icontransfrom {
+    transform: rotate(-90deg);
+  }
+}
+.hbottom {
+  height: 40px;
 }

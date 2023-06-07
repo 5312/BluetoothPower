@@ -41,7 +41,7 @@ export default function Parameters() {
               <View className="card">
                 <AtIcon
                   prefixClass="iconfont"
-                  size="35"
+                  size="40"
                   value={item.icon}
                   className="at-icon icontransfrom"
                   color="#4897ff"
@@ -52,7 +52,7 @@ export default function Parameters() {
           ))}
         </View>
       </View>
-      <View>
+      <View className="cardbox">
         <View className="shadwbox flex">
           <View className="flex">
             <AtIcon

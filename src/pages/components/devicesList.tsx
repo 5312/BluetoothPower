@@ -11,11 +11,11 @@ import dianliu from "../../assets/dianya-copy.png";
 import dianchi from "../../assets/dianchi.png";
 import wendu from "../../assets/wendu.png";
 
-export default function DevicesList() {
+export default function DevicesList(devicesData) {
   useLoad(() => {
     console.log("Page loaded.");
   });
-
+  console.log("prop", devicesData);
   function toDetail() {
     Taro.navigateTo({
       url: "/pages/detail/detail",
@@ -28,7 +28,11 @@ export default function DevicesList() {
       </View>
       <View className="card-top">
         <View>
-          <Text className="deviceName">设备一(已连接)</Text>
+          <Text className="deviceName">
+            {devicesData.devicesData.name == ""
+              ? devicesData.devicesData.deviceId
+              : devicesData.devicesData.name}
+          </Text>
         </View>
         <View>
           <View className="iconright at-icon at-icon-chevron-right"></View>

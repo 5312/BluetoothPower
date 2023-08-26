@@ -21,7 +21,8 @@ function isOpenBlueth() {
 }
 function startBluetoothDevicesDiscovery() {
   Taro.startBluetoothDevicesDiscovery({
-    allowDuplicatesKey: true,
+    allowDuplicatesKey: false,
+    //services: ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"], //6E400002-B5A3-F393-E0A9- E50E24DCCA9E
     success: (res) => {
       console.log("startBluetoothDevicesDiscovery success", res);
       // onBluetoothDeviceFound();
@@ -29,8 +30,7 @@ function startBluetoothDevicesDiscovery() {
   });
 }
 export default function Index() {
-  const [state, setState] = useState<Object[]>([]);
-
+  const [state, setState] = useState<Object[]>([1]);
   useLoad(() => {
     console.log("Page loaded.");
   });
@@ -76,9 +76,12 @@ export default function Index() {
   });
 
   Taro.onBluetoothDeviceFound((res) => {
-    console.log("onBluetoothDeviceFound", res);
+    //  console.log("onBluetoothDeviceFound", res);
     res.devices.forEach((device) => {
       console.log("deviace", device);
+      if (!device.name && !device.localName) {
+        return;
+      }
       const foundDevices = state;
       const idx = inArray(foundDevices, "deviceId", device.deviceId);
       if (idx === -1) {

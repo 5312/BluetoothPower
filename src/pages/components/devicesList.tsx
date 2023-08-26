@@ -11,14 +11,22 @@ import dianliu from "../../assets/dianya-copy.png";
 import dianchi from "../../assets/dianchi.png";
 import wendu from "../../assets/wendu.png";
 
-export default function DevicesList(devicesData) {
+export default function DevicesList(prop) {
   useLoad(() => {
     console.log("Page loaded.");
   });
-  console.log("prop", devicesData);
+  // console.log("prop", devicesData);
+  const devicesData = prop.devicesData;
+  const deviceId = devicesData.deviceId;
   function toDetail() {
-    Taro.navigateTo({
-      url: "/pages/detail/detail",
+    // Taro.navigateTo({
+    //   url: "/pages/detail/detail",
+    // });
+    Taro.createBLEConnection({
+      deviceId, // 搜索到设备的 deviceId
+      success: () => {
+        console.log("连接成功");
+      },
     });
   }
   return (
@@ -29,9 +37,7 @@ export default function DevicesList(devicesData) {
       <View className="card-top">
         <View>
           <Text className="deviceName">
-            {devicesData.devicesData.name == ""
-              ? devicesData.devicesData.deviceId
-              : devicesData.devicesData.name}
+            {devicesData.name == "" ? devicesData.deviceId : devicesData.name}
           </Text>
         </View>
         <View>

@@ -16,6 +16,14 @@ import dianliu from "../../assets/dianya-copy.png";
 import dianchi from "../../assets/dianchi.png";
 import wendu from "../../assets/wendu.png";
 
+// ArrayBuffer转16进制字符串示例
+function ab2hex(buffer) {
+  let hexArr = Array.prototype.map.call(new Uint8Array(buffer), function (bit) {
+    return ("00" + bit.toString(16)).slice(-2);
+  });
+  return hexArr.join("");
+}
+
 export default function DevicesList(prop) {
   const [state, setState] = useState<string>("未连接");
   const [notify, setNotify] = useState<string>();
@@ -44,8 +52,7 @@ export default function DevicesList(prop) {
         console.log("连接成功");
         setState("已连接");
         onBleConnectState(); //监听蓝牙连接状态
-        // getBLEDeviceServices(deviceId); //获取蓝牙设备所有 service（服务）
-        getBLEDeviceCharacteristics(deviceId);
+        getBLEDeviceServices(deviceId); //获取蓝牙设备所有 service（服务）
       },
       fail: function (res) {
         console.log("连接蓝牙设备失败", res);
@@ -71,18 +78,41 @@ export default function DevicesList(prop) {
       deviceId: id,
       success: function (res) {
         console.log("device services:", res.services);
+        getBLEDeviceCharacteristics(deviceId, res.services[0].uuid);
       },
     });
   }
   /**蓝牙设备characteristic(特征值)信息 */
-  function getBLEDeviceCharacteristics(id: string) {
+  function getBLEDeviceCharacteristics(id: string, sid: string) {
     Taro.getBLEDeviceCharacteristics({
       // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-      deviceId,
+      deviceId: id,
       // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-      serviceId: "6E400003-B5A3-F393-E0A9-E50E24DCCA9E",
+      serviceId: sid,
       success: function (res) {
-        console.log("device getBLEDeviceCharacteristics:", res.characteristics);
+        //console.log("device getBLEDeviceCharacteristics:", res.characteristics);
+        const characteristics = res.characteristics;
+        const receive = characteristics[0].uuid; //  "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
+        const send = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //characteristics[1].uuid;
+        // console.log("read03---", characteristics[0].properties.read);
+        // console.log("read02---", characteristics[1].properties.read);
+        Taro.notifyBLECharacteristicValueChange({
+          state: true, // 启用 notify 功能
+          deviceId: id,
+          serviceId: sid,
+          characteristicId: receive,
+          success: function (res) {
+            console.log("notify success", res);
+            Taro.onBLECharacteristicValueChange(function (res) {
+              const arrayBuffer = res.value;
+              // 将 ArrayBuffer 转换为 Uint8Array
+              const uint8Array = new Uint8Array(arrayBuffer);
+              // 将 Uint8Array 转换为字符串
+              const resultString = String.fromCharCode.apply(null, uint8Array);
+              console.log(resultString); // 输出: "Hello"
+            });
+          },
+        });
       },
     });
   }

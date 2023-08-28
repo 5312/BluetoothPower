@@ -1,6 +1,9 @@
 import Taro from "@tarojs/taro";
 import { AtIcon } from "taro-ui";
 import { View, Text, Image } from "@tarojs/components";
+import { useState } from "react";
+import { useLoad } from "@tarojs/taro";
+
 import "./detail.less";
 
 import devices from "../../assets/devices.png";
@@ -18,6 +21,16 @@ import xtdl from "../../assets/xtdl.png";
 import cd from "../../assets/cd.png";
 
 export default function Detail() {
+  const [d_data, setDdata] = useState<string>(""); //设备名称
+
+  const data: any = Taro.getCurrentInstance(); //.router.params;
+  const route = data.router.params;
+  const devicesData = JSON.parse(route.devicesData);
+  const name: string = devicesData.name;
+
+  useLoad(() => {
+    setDdata(name);
+  });
   const devicesArray = [
     { name: "刀片电池", label: "电池类型" },
     { name: "15小时", label: "运行时间" },
@@ -71,7 +84,7 @@ export default function Detail() {
             <View className="deviceName">
               <View className="rectangle"></View>
               <Text className="d_name">设备名称:</Text>
-              <Text className="device">设备1</Text>
+              <Text className="device">{d_data}</Text>
             </View>
           </View>
           <View className="list-text" onClick={toindex}>

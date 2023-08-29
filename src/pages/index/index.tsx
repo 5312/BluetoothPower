@@ -6,33 +6,12 @@ import Taro from "@tarojs/taro";
 import { AtFab } from "taro-ui";
 import "./index.less";
 
-function inArray(arr, key, val) {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i][key] === val) {
-      return i;
-    }
-  }
-  return -1;
-}
+import { inArray } from "../../util/util";
 
 // 判断系统蓝牙是否打开
-function isOpenBlueth() {
+function isOpenBlueth(): boolean {
   const res = Taro.getSystemInfoSync();
-  return res.bluetoothEnabled;
-}
-
-function startBluetoothDevicesDiscovery() {
-  Taro.startBluetoothDevicesDiscovery({
-    allowDuplicatesKey: false,
-    services: ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"], //6E400002-B5A3-F393-E0A9- E50E24DCCA9E
-    success: (res) => {
-      console.log("startBluetoothDevicesDiscovery success", res);
-    },
-  });
-}
-// 初始化蓝牙
-async function bluetoothStar() {
-  if (!isOpenBlueth()) {
+  if (!res.bluetoothEnabled) {
     Taro.showModal({
       title: "提示",
       content: "请打开蓝牙后重试",
@@ -48,23 +27,35 @@ async function bluetoothStar() {
         }
       },
     });
-    return;
+    return false;
   }
-  // 初始化蓝牙模块
-  Taro.openBluetoothAdapter({
-    success: function (res) {
-      console.log("openBluetoothAdapter success", res);
-      startBluetoothDevicesDiscovery();
+  return true;
+}
+
+// 搜索蓝牙
+function startBluetoothDevicesDiscovery() {
+  Taro.startBluetoothDevicesDiscovery({
+    allowDuplicatesKey: false,
+    //services: ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],
+    success: (res) => {
+      console.log("startBluetoothDevicesDiscovery success", res);
     },
   });
 }
-function stopBluetoothDevicesDiscovery() {
-  Taro.stopBluetoothDevicesDiscovery();
-}
 
 export default function Index() {
-  const [state, setState] = useState<Devices[]>([]);
-
+  const [state, setState] = useState<Devices[]>([
+    {
+      RSSI: 1,
+      advertisData: new ArrayBuffer(0),
+      advertisServiceUUIDs: [],
+      connectable: false,
+      deviceId: "string",
+      localName: "string",
+      name: "string",
+      serviceData: {},
+    },
+  ]);
   const [fabIcon, setfabIcon] = useState("at-icon-streaming");
   const [scaning, changeScan] = useState(false);
 
@@ -79,10 +70,29 @@ export default function Index() {
       },
     });
   });
+  // 初始化蓝牙
+  async function bluetoothStar() {
+    if (!isOpenBlueth()) return;
+    // 初始化蓝牙模块
+    Taro.openBluetoothAdapter({
+      success: function () {
+        startBluetoothDevicesDiscovery();
+        setfabIcon("at-icon-blocked");
+        changeScan(true);
+      },
+    });
+  }
 
+  function ClickFunction() {
+    if (scaning) {
+      stopBluetoothDevicesDiscovery();
+    } else {
+      bluetoothStar();
+    }
+  }
+  // 监听蓝牙
   Taro.onBluetoothDeviceFound((res) => {
     res.devices.forEach((device: Devices) => {
-      console.log("设备查询", device);
       if (!device.name && !device.localName) {
         return;
       }
@@ -91,20 +101,15 @@ export default function Index() {
       if (idx === -1) {
         setState((Current) => [...Current, device]);
       }
-      console.log(state);
     });
   });
-
-  function ClickFunction() {
-    if (scaning) {
-      stopBluetoothDevicesDiscovery();
-      setfabIcon("at-icon-streaming");
-      changeScan(false);
-    } else {
-      bluetoothStar();
-      setfabIcon("at-icon-blocked");
-      changeScan(true);
-    }
+  function stopBluetoothDevicesDiscovery() {
+    Taro.stopBluetoothDevicesDiscovery({
+      success: function () {
+        setfabIcon("at-icon-streaming");
+        changeScan(false);
+      },
+    });
   }
   return (
     <View className="index">
@@ -119,29 +124,14 @@ export default function Index() {
         <AtFab size="small" onClick={ClickFunction}>
           <Text className={`at-fab__icon at-icon ${fabIcon}`}></Text>
         </AtFab>
-        {/* <AtButton
-          className="btn"
-          type="primary"
-          size="normal"
-          onClick={bluetoothStar}
-        >
-          开始扫描
-        </AtButton>
-        <AtButton
-          className="btn"
-          type="primary"
-          size="normal"
-          onClick={stopBluetoothDevicesDiscovery}
-        >
-          停止扫描
-        </AtButton> */}
       </View>
-
-      {/* <Image className="headerimg" src={namedPng}></Image> */}
       <View className="headerimg"></View>
       {state.map((item, y) => (
         <View key={y}>
-          <DevicesList devicesData={item} />
+          <DevicesList
+            devicesData={item}
+            stopBluetoothDevicesDiscovery={stopBluetoothDevicesDiscovery}
+          />
           <View className="height"></View>
         </View>
       ))}

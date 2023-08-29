@@ -1,8 +1,7 @@
 import Taro from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
-import { useLoad } from "@tarojs/taro";
-import { useState } from "react";
-
+import React, { useState } from "react";
+import { strToData } from "../..//util/util";
 import "./devicesList.less";
 
 import blueTooth from "../../assets/bluetooth.png";
@@ -16,22 +15,30 @@ import dianliu from "../../assets/dianya-copy.png";
 import dianchi from "../../assets/dianchi.png";
 import wendu from "../../assets/wendu.png";
 
-// ArrayBuffer转16进制字符串示例
-function ab2hex(buffer) {
-  let hexArr = Array.prototype.map.call(new Uint8Array(buffer), function (bit) {
-    return ("00" + bit.toString(16)).slice(-2);
-  });
-  return hexArr.join("");
-}
+type DevicesProps = {
+  devicesData: Devices;
+  stopBluetoothDevicesDiscovery: Function;
+};
+type OmitInformation = {
+  voltage: string; //电压
+  current: string; //电流
+  charge_discharge: ChargeDischarge; // 充放电状态
+  battery_percentage: string; // 百分比
+  temperature: string; // 温度
+};
+const DevicesList: React.FC<DevicesProps> = (props) => {
+  const [state, setState] = useState<string>("未连接"); // 连接状态
+  const [omitInformation, setOmitInformation] = useState<OmitInformation>({
+    voltage: "未知",
+    current: "未知",
+    charge_discharge: 8, // 充放电状态
+    battery_percentage: "未知",
+    temperature: "未知",
+  }); // 连接状态
 
-export default function DevicesList(prop) {
-  const [state, setState] = useState<string>("未连接");
-  const [notify, setNotify] = useState<string>();
+  const [notify, setNotify] = useState<string>("");
 
-  useLoad(() => {
-    console.log("Page loaded.");
-  });
-  const devicesData = prop.devicesData;
+  const { devicesData, stopBluetoothDevicesDiscovery } = props;
   const deviceId: string = devicesData.deviceId;
 
   function toDetail() {
@@ -46,10 +53,12 @@ export default function DevicesList(prop) {
     Taro.showLoading({
       title: "开始连接",
     });
+    // 停止搜索
+    stopBluetoothDevicesDiscovery();
+
     Taro.createBLEConnection({
-      deviceId, // 搜索到设备的 deviceId
+      deviceId,
       success: () => {
-        console.log("连接成功");
         setState("已连接");
         onBleConnectState(); //监听蓝牙连接状态
         getBLEDeviceServices(deviceId); //获取蓝牙设备所有 service（服务）
@@ -62,14 +71,13 @@ export default function DevicesList(prop) {
       },
     });
   }
-
+  // 断开连接显示
   function onBleConnectState() {
     //监听蓝牙连接状态
     Taro.onBLEConnectionStateChange(function (res) {
-      // 该方法回调中可以用于处理连接意外断开等异常情况
-      console.log(
-        `device ${res.deviceId} state has changed, connected: ${res.connected}`
-      );
+      if (!res.connected) {
+        setState("未连接");
+      }
     });
   }
 
@@ -85,15 +93,12 @@ export default function DevicesList(prop) {
   /**蓝牙设备characteristic(特征值)信息 */
   function getBLEDeviceCharacteristics(id: string, sid: string) {
     Taro.getBLEDeviceCharacteristics({
-      // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
       deviceId: id,
-      // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
       serviceId: sid,
       success: function (res) {
-        //console.log("device getBLEDeviceCharacteristics:", res.characteristics);
         const characteristics = res.characteristics;
         const receive = characteristics[0].uuid; //  "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
-        const send = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //characteristics[1].uuid;
+        // const send = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //characteristics[1].uuid;
         // console.log("read03---", characteristics[0].properties.read);
         // console.log("read02---", characteristics[1].properties.read);
         Taro.notifyBLECharacteristicValueChange({
@@ -109,7 +114,8 @@ export default function DevicesList(prop) {
               const uint8Array = new Uint8Array(arrayBuffer);
               // 将 Uint8Array 转换为字符串
               const resultString = String.fromCharCode.apply(null, uint8Array);
-              console.log(resultString); // 输出: "Hello"
+              setNotify(resultString);
+              setOmitInformation(strToData(resultString));
             });
           },
         });
@@ -119,7 +125,7 @@ export default function DevicesList(prop) {
   return (
     <View className="card" onClick={toDetail}>
       <View className="position-num">
-        <Text>70%</Text>
+        <Text>{omitInformation.battery_percentage}%</Text>
       </View>
       <View className="card-top">
         <View>
@@ -144,19 +150,34 @@ export default function DevicesList(prop) {
           <View className="card-bottom-icon">
             <View className="icontext">
               <Image src={dianyaDisabled}></Image>
-              <Text>电压: 未知</Text>
+              <View>
+                电压: <Text>{omitInformation.voltage}</Text>
+              </View>
             </View>
             <View className="icontext">
               <Image src={dianliu}></Image>
-              <Text>电流: 未知</Text>
+              <View>
+                电流: <Text>{omitInformation.current}</Text>
+              </View>
             </View>
             <View className="icontext itbottom">
               <Image src={dianchi}></Image>
-              <Text>状态: 未知</Text>
+              <View>
+                状态:{" "}
+                <Text>
+                  {omitInformation.charge_discharge == 4
+                    ? "充电"
+                    : omitInformation.charge_discharge == 8
+                    ? "放电"
+                    : "闲"}{" "}
+                </Text>
+              </View>
             </View>
             <View className="icontext itbottom">
               <Image src={wendu}></Image>
-              <Text>温度: 未知</Text>
+              <View>
+                温度: <Text>{omitInformation.temperature}</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -164,4 +185,6 @@ export default function DevicesList(prop) {
       </View>
     </View>
   );
-}
+};
+
+export default DevicesList;

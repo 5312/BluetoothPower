@@ -1,8 +1,9 @@
 import Taro from "@tarojs/taro";
 import { AtIcon } from "taro-ui";
 import { View, Text, Image } from "@tarojs/components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoad } from "@tarojs/taro";
+import { strToData } from "../..//util/util";
 
 import "./detail.less";
 
@@ -23,45 +24,72 @@ import cd from "../../assets/cd.png";
 export default function Detail() {
   const [d_data, setDdata] = useState<string>(""); //设备名称
 
+  const [notify, setNotify] = useState<NofityData>({
+    voltage: "未知",
+    current: "未知",
+    discharge_state: "未知",
+    chip_temp: "未知",
+    output_voltage: "未知",
+    output_power: "未知",
+    charge_discharge: 0,
+    battery_capacity: "未知",
+    battery_cycles: "未知",
+    battery_percentage: "未知",
+    temperature: "未知",
+  }); // 数据
+  const [settingList, setSettingList] = useState([
+    { icon: "dianchi", sub: "电池状态", type: 1 },
+    { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
+  ]); //设备名称
+  type SettingList = {
+    img?: any;
+    name: string;
+    unit?: string;
+    value: string | number;
+  };
+  const [setting3, setSetting3] = useState<SettingList[]>([
+    { img: dianyaDisabled, name: "电池电压", value: 31.52, unit: "V" },
+    { img: dianliu, name: "电池温度", value: "36", unit: "℃" },
+    { img: gl, name: "电池容量", value: 10000, unit: "wh" },
+    { img: gdy, name: "充放状态", value: 4, unit: "" },
+    { img: dy, name: "充放电流", value: 1, unit: "A" },
+    { img: pjdy, name: "充放功率", value: 1, unit: "W" },
+    { img: yc, name: "A口", value: "1/5", unit: "" },
+    { img: zxh, name: "C口", value: "4/5", unit: "" },
+    { img: wendu, name: "系统温度", value: 1, unit: "°C" },
+    { img: xtdy, name: "循环次数", value: 1, unit: "次" },
+    { img: xtdl, name: "电池健康", value: "良", unit: "" },
+  ]);
+
   const data: any = Taro.getCurrentInstance(); //.router.params;
   const route = data.router.params;
   const devicesData = JSON.parse(route.devicesData);
   const name: string = devicesData.name;
 
   useLoad(() => {
+    setNotify(strToData(route.notify));
     setDdata(name);
   });
+  useEffect(() => {
+    // console.log("::", notify);
+    setSettingList((Current) => {
+      return [
+        { icon: "dianchi", sub: "电池状态", type: 1 },
+        { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
+      ];
+    });
+  }, [notify]);
+
   const devicesArray = [
     { name: "刀片电池", label: "电池类型" },
     { name: "15小时", label: "运行时间" },
     { name: "V1.0", label: "软件版本号" },
     { name: "AD15SDA518", label: "硬件版本号" },
   ];
-  const settingList = [
-    { icon: "dianchi", sub: "电池状态", type: 1 },
-    { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
-  ];
+
   const settingList2 = [
     { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
-    { icon: "vlb", sub: "均衡状态", type: 0 },
-  ];
-  const setting3 = [
-    { img: dianyaDisabled, sub: "电池状态", type: 0 },
-    { img: dianliu, sub: "电流", value: "36A" },
-    { img: gl, sub: "功率", value: 0 },
-    { img: gdy, sub: "最高电压", value: 1 },
-    { img: dy, sub: "最低电压", value: 1 },
-    { img: pjdy, sub: "平均电压", value: 1 },
-    { img: yc, sub: "压差", value: 1 },
-    { img: zxh, sub: "总循环", value: 1 },
-    { img: wendu, sub: "电池温度", value: 1 },
-    { img: xtdy, sub: "系统电压", value: 1 },
-    { img: xtdl, sub: "系统电流", value: 1 },
-    {
-      img: cd,
-      sub: "充电电流",
-      value: 1,
-    },
+    // { icon: "vlb", sub: "均衡状态", type: 0 },
   ];
 
   function toindex() {
@@ -155,7 +183,7 @@ export default function Detail() {
             <View className="echarts">
               <View className="outline">
                 <View className="inline">
-                  <View className="soc">SOC</View>
+                  {/* <View className="soc">SOC</View> */}
                   <View className="title">38%</View>
                   <View className="subtitle">剩余: 3800AH</View>
                 </View>
@@ -181,8 +209,11 @@ export default function Detail() {
           {setting3.map((item, i) => (
             <View className=" settingitem" key={i}>
               <Image className="iconimg" src={item.img}></Image>
-              <View className="name">{item.sub}:</View>
-              <View className="name">36V</View>
+              <View className="name">{item.name}:</View>
+              <View className="value">
+                <Text className="name">{item.value}</Text>
+                <Text className="unit">{item.unit}</Text>
+              </View>
             </View>
           ))}
         </View>

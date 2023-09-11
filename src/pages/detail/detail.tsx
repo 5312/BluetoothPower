@@ -3,7 +3,7 @@ import { AtIcon } from "taro-ui";
 import { View, Text, Image } from "@tarojs/components";
 import { useState, useEffect } from "react";
 import { useLoad } from "@tarojs/taro";
-import { strToData } from "../..//util/util";
+// import { strToData } from "../..//util/util";
 
 import "./detail.less";
 
@@ -19,47 +19,46 @@ import zxh from "../../assets/zxh.png";
 import wendu from "../../assets/wendu.png";
 import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
-import cd from "../../assets/cd.png";
+// import cd from "../../assets/cd.png";
+
+//设备名称
+type SettingList = {
+  img?: any;
+  name: string;
+  unit?: string;
+  value: string | number;
+};
 
 export default function Detail() {
   const [d_data, setDdata] = useState<string>(""); //设备名称
 
   const [notify, setNotify] = useState<NofityData>({
-    voltage: "未知",
-    current: "未知",
-    discharge_state: "未知",
-    chip_temp: "未知",
-    output_voltage: "未知",
-    output_power: "未知",
-    charge_discharge: 0,
-    battery_capacity: "未知",
-    battery_cycles: "未知",
-    battery_percentage: "未知",
-    temperature: "未知",
-  }); // 数据
+    bat_V: 0,
+    bat_A: 0,
+    A_C: 0,
+    ic_temp: 0,
+    sys_outinv: 0,
+    sys_w: 0,
+    sys: 0,
+    bat_m: 0,
+    bat_per: 0,
+    bat_ntc: 0,
+    software: 0,
+    hardware: 0,
+    bat_health: 0,
+  });
+
   const [settingList, setSettingList] = useState([
     { icon: "dianchi", sub: "电池状态", type: 1 },
     { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
-  ]); //设备名称
-  type SettingList = {
-    img?: any;
-    name: string;
-    unit?: string;
-    value: string | number;
-  };
-  const [setting3, setSetting3] = useState<SettingList[]>([
-    { img: dianyaDisabled, name: "电池电压", value: 31.52, unit: "V" },
-    { img: dianliu, name: "电池温度", value: "36", unit: "℃" },
-    { img: gl, name: "电池容量", value: 10000, unit: "wh" },
-    { img: gdy, name: "充放状态", value: 4, unit: "" },
-    { img: dy, name: "充放电流", value: 1, unit: "A" },
-    { img: pjdy, name: "充放功率", value: 1, unit: "W" },
-    { img: yc, name: "A口", value: "1/5", unit: "" },
-    { img: zxh, name: "C口", value: "4/5", unit: "" },
-    { img: wendu, name: "系统温度", value: 1, unit: "°C" },
-    { img: xtdy, name: "循环次数", value: 1, unit: "次" },
-    { img: xtdl, name: "电池健康", value: "良", unit: "" },
   ]);
+  const settingList2 = [
+    { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
+  ];
+
+  const [devicesArray, setDevicesArray] = useState<any[]>([]);
+
+  const [setting3, setSetting3] = useState<SettingList[]>([]);
 
   const data: any = Taro.getCurrentInstance(); //.router.params;
   const route = data.router.params;
@@ -67,30 +66,68 @@ export default function Detail() {
   const name: string = devicesData.name;
 
   useLoad(() => {
-    setNotify(strToData(route.notify));
+    setNotify(JSON.parse(route.notify));
     setDdata(name);
   });
+
   useEffect(() => {
-    // console.log("::", notify);
-    setSettingList((Current) => {
+    setDevicesArray(() => {
       return [
-        { icon: "dianchi", sub: "电池状态", type: 1 },
-        { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
+        { name: "三元锂", label: "电池类型" },
+        { name: "已连接", label: "连接状态" },
+        { name: notify.software, label: "软件版本号" },
+        { name: notify.hardware, label: "硬件版本号" },
+      ];
+    });
+
+    const cfA = notify.sys_w / notify.sys_outinv;
+
+    const status = notify.sys == 4 ? "放电" : notify.sys == 8 ? "充电" : "闲";
+
+    const a = notify.A_C == "1/5" ? "ON" : "OFF";
+    const c = notify.A_C == "4/5" ? "ON" : "OFF";
+    setSetting3(() => {
+      return [
+        {
+          img: dianyaDisabled,
+          name: "电池电压",
+          value: notify.bat_V.toFixed(2),
+          unit: "V",
+        },
+        {
+          img: dianliu,
+          name: "电池温度",
+          value: notify.bat_ntc.toFixed(1),
+          unit: "℃",
+        },
+        {
+          img: gl,
+          name: "电池容量",
+          value: notify.bat_m.toFixed(2),
+          unit: "wh",
+        },
+        { img: gdy, name: "充放状态", value: status, unit: "" },
+        { img: dy, name: "充放电流", value: cfA, unit: "A" },
+        { img: pjdy, name: "充放功率", value: notify.sys_w, unit: "W" },
+        { img: yc, name: "A口", value: a, unit: "" },
+        { img: zxh, name: "C口", value: c, unit: "" },
+        {
+          img: wendu,
+          name: "系统温度",
+          value: notify.ic_temp.toFixed(1),
+          unit: "°C",
+        },
+        { img: xtdy, name: "循环次数", value: notify.bat_cir, unit: "次" },
+        { img: xtdl, name: "电池健康", value: notify.bat_health, unit: "" },
+        {
+          img: xtdl,
+          name: "系统电压",
+          value: notify.sys_outinv.toFixed(2),
+          unit: "",
+        },
       ];
     });
   }, [notify]);
-
-  const devicesArray = [
-    { name: "刀片电池", label: "电池类型" },
-    { name: "15小时", label: "运行时间" },
-    { name: "V1.0", label: "软件版本号" },
-    { name: "AD15SDA518", label: "硬件版本号" },
-  ];
-
-  const settingList2 = [
-    { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
-    // { icon: "vlb", sub: "均衡状态", type: 0 },
-  ];
 
   function toindex() {
     Taro.redirectTo({
@@ -183,9 +220,11 @@ export default function Detail() {
             <View className="echarts">
               <View className="outline">
                 <View className="inline">
-                  {/* <View className="soc">SOC</View> */}
-                  <View className="title">38%</View>
-                  <View className="subtitle">剩余: 3800AH</View>
+                  <View className="soc"></View>
+                  <View className="title">{notify.bat_per}%</View>
+                  <View className="subtitle">
+                    剩余: {notify.bat_m.toFixed(2)}wH
+                  </View>
                 </View>
                 <View className="left_box">
                   <View className="left"></View>
@@ -195,7 +234,10 @@ export default function Detail() {
                 </View>
               </View>
             </View>
-            <View className="e-title">总容量: 10000AH</View>
+            {/* {notify.bat_m} */}
+            <View className="e-title">
+              总容量:{(notify.bat_m / (notify.bat_per / 100)).toFixed(2)}wH
+            </View>
           </View>
           <View className="end">
             <View className="setting" onClick={toSetting}>

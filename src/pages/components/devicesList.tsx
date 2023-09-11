@@ -5,10 +5,10 @@ import { strToData } from "../..//util/util";
 import "./devicesList.less";
 
 import blueTooth from "../../assets/bluetooth.png";
-import wifi from "../../assets/wifi.png";
 
 import blueTooth1 from "../../assets/bluetooth1.png";
-import wifi1 from "../../assets/wifi1.png";
+// import wifi from "../../assets/wifi.png";
+// import wifi1 from "../../assets/wifi1.png";
 
 import dianyaDisabled from "../../assets/dianya-disabled.png";
 import dianliu from "../../assets/dianya-copy.png";
@@ -19,21 +19,23 @@ type DevicesProps = {
   devicesData: Devices;
   stopBluetoothDevicesDiscovery: Function;
 };
-type OmitInformation = {
-  voltage: string; //电压
-  current: string; //电流
-  charge_discharge: ChargeDischarge; // 充放电状态
-  battery_percentage: string; // 百分比
-  temperature: string; // 温度
-};
+
 const DevicesList: React.FC<DevicesProps> = (props) => {
   const [state, setState] = useState<string>("未连接"); // 连接状态
-  const [omitInformation, setOmitInformation] = useState<OmitInformation>({
-    voltage: "未知",
-    current: "未知",
-    charge_discharge: 8, // 充放电状态
-    battery_percentage: "未知",
-    temperature: "未知",
+  const [omitInformation, setOmitInformation] = useState<NofityData>({
+    bat_V: 0,
+    bat_A: 0,
+    A_C: 0,
+    ic_temp: 0,
+    sys_outinv: 0,
+    sys_w: 0,
+    sys: 0,
+    bat_m: 0,
+    bat_per: 0,
+    bat_ntc: 0,
+    software: 0,
+    hardware: 0,
+    bat_health: 0,
   }); // 连接状态
 
   const [notify, setNotify] = useState<string>("");
@@ -110,10 +112,12 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
             console.log("notify success", res);
             Taro.onBLECharacteristicValueChange(function (res) {
               const arrayBuffer = res.value;
+
               // 将 ArrayBuffer 转换为 Uint8Array
               const uint8Array = new Uint8Array(arrayBuffer);
               // 将 Uint8Array 转换为字符串
               const resultString = String.fromCharCode.apply(null, uint8Array);
+              console.log("数据", JSON.parse(resultString));
               setNotify(resultString);
               setOmitInformation(strToData(resultString));
             });
@@ -125,7 +129,7 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
   return (
     <View className="card" onClick={toDetail}>
       <View className="position-num">
-        <Text>{omitInformation.battery_percentage}%</Text>
+        <Text>{omitInformation.bat_per}%</Text>
       </View>
       <View className="card-top">
         <View>
@@ -142,22 +146,22 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
         <View className="card-center">
           <View className="card-center-icon">
             <Image src={state == "已连接" ? blueTooth : blueTooth1}></Image>
-            <Image
+            {/* <Image
               src={state == "已连接" ? wifi : wifi1}
               className="wifi"
-            ></Image>
+            ></Image> */}
           </View>
           <View className="card-bottom-icon">
             <View className="icontext">
               <Image src={dianyaDisabled}></Image>
               <View>
-                电压: <Text>{omitInformation.voltage}</Text>
+                电压: <Text>{omitInformation.bat_V}</Text>
               </View>
             </View>
             <View className="icontext">
               <Image src={dianliu}></Image>
               <View>
-                电流: <Text>{omitInformation.current}</Text>
+                电流: <Text>{omitInformation.bat_A}</Text>
               </View>
             </View>
             <View className="icontext itbottom">
@@ -165,9 +169,9 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
               <View>
                 状态:{" "}
                 <Text>
-                  {omitInformation.charge_discharge == 4
+                  {omitInformation.A_C == 4
                     ? "充电"
-                    : omitInformation.charge_discharge == 8
+                    : omitInformation.A_C == 8
                     ? "放电"
                     : "闲"}{" "}
                 </Text>
@@ -176,7 +180,7 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
             <View className="icontext itbottom">
               <Image src={wendu}></Image>
               <View>
-                温度: <Text>{omitInformation.temperature}</Text>
+                温度: <Text>{omitInformation.ic_temp}</Text>
               </View>
             </View>
           </View>

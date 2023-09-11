@@ -16,20 +16,8 @@ export function ab2hex(buffer) {
 }
 
 export function strToData(str: string): NofityData {
-  const array = str.split("/");
-  const data: NofityData = {
-    voltage: array[0],
-    current: array[1],
-    discharge_state: array[2],
-    chip_temp: array[3],
-    output_voltage: array[4],
-    output_power: array[5],
-    charge_discharge: Number(array[6]),
-    battery_capacity: array[7],
-    battery_cycles: array[8],
-    battery_percentage: array[9],
-    temperature: array[10],
-  };
+  const array = JSON.parse(str); //str.split("/");
+  const data: NofityData = array;
 
   return data;
 }

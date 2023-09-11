@@ -50,10 +50,10 @@ export default function Detail() {
 
   const [settingList, setSettingList] = useState([
     { icon: "dianchi", sub: "电池状态", type: 1 },
-    { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
+    // { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
   ]);
   const settingList2 = [
-    { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
+    // { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
   ];
 
   const [devicesArray, setDevicesArray] = useState<any[]>([]);
@@ -196,7 +196,7 @@ export default function Detail() {
                 </View>
               ))}
             </View>
-            <View className="flexrow">
+            {/* <View className="flexrow">
               {settingList2.map((item, i) => (
                 <View
                   key={i}
@@ -214,7 +214,7 @@ export default function Detail() {
                   <View className="sub">{item.sub}</View>
                 </View>
               ))}
-            </View>
+            </View> */}
           </View>
           <View className="echartsBox">
             <View className="echarts">

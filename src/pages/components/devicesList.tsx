@@ -31,7 +31,7 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
     sys_w: 0,
     sys: 0,
     bat_m: 0,
-    bat_per: 0,
+    bat_per: 4,
     bat_ntc: 0,
     software: 0,
     hardware: 0,
@@ -155,13 +155,13 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
             <View className="icontext">
               <Image src={dianyaDisabled}></Image>
               <View>
-                电压: <Text>{omitInformation.bat_V}</Text>
+                电压: <Text>{omitInformation.bat_V.toFixed(2)}</Text>
               </View>
             </View>
             <View className="icontext">
               <Image src={dianliu}></Image>
               <View>
-                电流: <Text>{omitInformation.bat_A}</Text>
+                电流: <Text>{omitInformation.bat_A.toFixed(2)}</Text>
               </View>
             </View>
             <View className="icontext itbottom">
@@ -180,7 +180,7 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
             <View className="icontext itbottom">
               <Image src={wendu}></Image>
               <View>
-                温度: <Text>{omitInformation.ic_temp}</Text>
+                温度: <Text>{omitInformation.ic_temp.toFixed(2)}</Text>
               </View>
             </View>
           </View>

@@ -34,6 +34,7 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
     software: 0,
     hardware: 0,
     bat_health: 0,
+    bat_cir: 0,
     name: "",
   }); // 连接状态
 

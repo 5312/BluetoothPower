@@ -32,6 +32,6 @@ type NofityData = {
   software: any; // 系统版本
   hardware: any; // 硬件版本
   bat_health: any; // 电池健康
-  bat_cir?: any; // 循环次数
+  bat_cir: any; // 循环次数
   name: string;
 };

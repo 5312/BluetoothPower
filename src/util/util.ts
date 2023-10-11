@@ -31,6 +31,7 @@ export function strToData(str: string): NofityData {
     software: array.software,
     hardware: array.hardware,
     bat_health: array.bat_health,
+    bat_cir: array.bat_cir,
     name: array.name,
   };
 

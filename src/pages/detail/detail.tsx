@@ -46,6 +46,8 @@ export default function Detail() {
     software: 0,
     hardware: 0,
     bat_health: 0,
+    bat_cir: 0,
+
     name: "",
   });
 
@@ -65,11 +67,19 @@ export default function Detail() {
 
   useLoad(() => {
     setDdata(name);
-    console.log("globlea", getGlobalData("notify"));
+    // console.log("globlea", getGlobalData("notify"));
     const globaldata = getGlobalData("notify");
     if (globaldata) {
       setNotify(globaldata);
     }
+
+    setInterval(() => {
+      const globaldata = getGlobalData("notify");
+      if (globaldata) {
+        setNotify(globaldata);
+        console.log("--");
+      }
+    }, 2000);
   });
 
   useEffect(() => {
@@ -83,12 +93,12 @@ export default function Detail() {
       ];
     });
 
-    const cfA = notify.sys_w / notify.sys_outinv;
+    const cfA = (notify.sys_w / notify.sys_outinv).toFixed(2);
 
     const status = notify.sys == 4 ? "放电" : notify.sys == 8 ? "充电" : "闲";
 
-    const a = notify.A_C == "1/5" ? "ON" : "OFF";
-    const c = notify.A_C == "4/5" ? "ON" : "OFF";
+    const a = notify.A_C == (1 || 5) ? "ON" : "OFF";
+    const c = notify.A_C == (4 || 5) ? "ON" : "OFF";
     setSetting3(() => {
       return [
         {
@@ -100,7 +110,7 @@ export default function Detail() {
         {
           img: dianliu,
           name: "电池温度",
-          value: notify.ic_temp.toFixed(1),
+          value: notify.bat_ntc.toFixed(1),
           unit: "℃",
         },
         {
@@ -111,13 +121,18 @@ export default function Detail() {
         },
         { img: gdy, name: "充放状态", value: status, unit: "" },
         { img: dy, name: "充放电流", value: cfA, unit: "A" },
-        { img: pjdy, name: "充放功率", value: notify.sys_w, unit: "W" },
+        {
+          img: pjdy,
+          name: "充放功率",
+          value: notify.sys_w.toFixed(2),
+          unit: "W",
+        },
         { img: yc, name: "A口", value: a, unit: "" },
         { img: zxh, name: "C口", value: c, unit: "" },
         {
           img: wendu,
           name: "系统温度",
-          value: notify.bat_ntc.toFixed(1),
+          value: notify.ic_temp.toFixed(1),
           unit: "°C",
         },
         { img: xtdy, name: "循环次数", value: notify.bat_cir, unit: "次" },
@@ -126,7 +141,7 @@ export default function Detail() {
           img: xtdl,
           name: "系统电压",
           value: notify.sys_outinv.toFixed(2),
-          unit: "",
+          unit: "v",
         },
       ];
     });

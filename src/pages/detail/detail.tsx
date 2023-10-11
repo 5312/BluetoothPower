@@ -3,7 +3,6 @@ import { AtIcon } from "taro-ui";
 import { View, Text, Image } from "@tarojs/components";
 import { useState, useEffect } from "react";
 import { useLoad } from "@tarojs/taro";
-// import { strToData } from "../..//util/util";
 
 import "./detail.less";
 
@@ -19,7 +18,8 @@ import zxh from "../../assets/zxh.png";
 import wendu from "../../assets/wendu.png";
 import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
-// import cd from "../../assets/cd.png";
+
+import { get as getGlobalData } from "../global_data";
 
 //设备名称
 type SettingList = {
@@ -30,7 +30,7 @@ type SettingList = {
 };
 
 export default function Detail() {
-  const [d_data, setDdata] = useState<string>(""); //设备名称
+  const [d_data, setDdata] = useState<string>(); //设备名称
 
   const [notify, setNotify] = useState<NofityData>({
     bat_V: 0,
@@ -41,20 +41,17 @@ export default function Detail() {
     sys_w: 0,
     sys: 0,
     bat_m: 0,
-    bat_per: 0,
+    bat_per: 4,
     bat_ntc: 0,
     software: 0,
     hardware: 0,
     bat_health: 0,
+    name: "",
   });
 
-  const [settingList, setSettingList] = useState([
+  const [settingList] = useState([
     { icon: "dianchi", sub: "电池状态", type: 1 },
-    // { icon: "chongdianzhong", sub: "充电MOS", type: 0 },
   ]);
-  const settingList2 = [
-    // { icon: "dianchi-didianliang", sub: "放电MOS", type: 0 },
-  ];
 
   const [devicesArray, setDevicesArray] = useState<any[]>([]);
 
@@ -62,15 +59,21 @@ export default function Detail() {
 
   const data: any = Taro.getCurrentInstance(); //.router.params;
   const route = data.router.params;
-  const devicesData = JSON.parse(route.devicesData);
-  const name: string = devicesData.name;
+
+  var devicesData = decodeURI(route.devicesData);
+  const name: string = JSON.parse(devicesData).name;
 
   useLoad(() => {
-    setNotify(JSON.parse(route.notify));
     setDdata(name);
+    console.log("globlea", getGlobalData("notify"));
+    const globaldata = getGlobalData("notify");
+    if (globaldata) {
+      setNotify(globaldata);
+    }
   });
 
   useEffect(() => {
+    console.log("effect-notify", notify);
     setDevicesArray(() => {
       return [
         { name: "三元锂", label: "电池类型" },
@@ -97,7 +100,7 @@ export default function Detail() {
         {
           img: dianliu,
           name: "电池温度",
-          value: notify.bat_ntc.toFixed(1),
+          value: notify.ic_temp.toFixed(1),
           unit: "℃",
         },
         {
@@ -114,7 +117,7 @@ export default function Detail() {
         {
           img: wendu,
           name: "系统温度",
-          value: notify.ic_temp.toFixed(1),
+          value: notify.bat_ntc.toFixed(1),
           unit: "°C",
         },
         { img: xtdy, name: "循环次数", value: notify.bat_cir, unit: "次" },
@@ -196,25 +199,6 @@ export default function Detail() {
                 </View>
               ))}
             </View>
-            {/* <View className="flexrow">
-              {settingList2.map((item, i) => (
-                <View
-                  key={i}
-                  className={`'cardbox' ${
-                    item.type ? "activebgcolor" : "bgcolor"
-                  }`}
-                >
-                  <AtIcon
-                    prefixClass="iconfont"
-                    value={item.icon}
-                    size="20"
-                    className="at-icon"
-                    color={item.type ? "#fff" : "#4897ff"}
-                  ></AtIcon>
-                  <View className="sub">{item.sub}</View>
-                </View>
-              ))}
-            </View> */}
           </View>
           <View className="echartsBox">
             <View className="echarts">
@@ -234,9 +218,9 @@ export default function Detail() {
                 </View>
               </View>
             </View>
-            {/* {notify.bat_m} */}
             <View className="e-title">
-              总容量:{(notify.bat_m / (notify.bat_per / 100)).toFixed(2)}wH
+              总容量:{(notify.bat_m / (notify.bat_per / 100)).toFixed(2)}
+              wH
             </View>
           </View>
           <View className="end">

@@ -16,8 +16,23 @@ export function ab2hex(buffer) {
 }
 
 export function strToData(str: string): NofityData {
-  const array = JSON.parse(str); //str.split("/");
-  const data: NofityData = array;
+  const array = JSON.parse(str);
+  const data: NofityData = {
+    bat_V: parseFloat(array.bat_V),
+    bat_A: parseFloat(array.bat_A),
+    A_C: array.A_C,
+    ic_temp: parseFloat(array.ic_temp),
+    sys_outinv: parseFloat(array.sys_outinv),
+    sys_w: parseFloat(array.sys_w),
+    sys: array.sys,
+    bat_m: parseFloat(array.bat_m),
+    bat_per: array.bat_per,
+    bat_ntc: parseFloat(array.bat_ntc),
+    software: array.software,
+    hardware: array.hardware,
+    bat_health: array.bat_health,
+    name: array.name,
+  };
 
   return data;
 }

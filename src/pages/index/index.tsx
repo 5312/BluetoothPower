@@ -34,6 +34,11 @@ function isOpenBlueth(): boolean {
 
 // 搜索蓝牙
 function startBluetoothDevicesDiscovery() {
+  Taro.showToast({
+    title: "搜索蓝牙",
+    icon: "success",
+    duration: 3000,
+  });
   Taro.startBluetoothDevicesDiscovery({
     allowDuplicatesKey: false,
     // services: ["6E400001-B5A3-F393-E0A9-E50E24DCCA9E"],
@@ -65,9 +70,21 @@ export default function Index() {
     // 初始化蓝牙模块
     Taro.openBluetoothAdapter({
       success: function () {
+        Taro.showToast({
+          title: "蓝牙初始化成功",
+          icon: "success",
+          duration: 3000,
+        });
         startBluetoothDevicesDiscovery();
         setfabIcon("at-icon-blocked");
         changeScan(true);
+      },
+      fail: function () {
+        Taro.showToast({
+          title: "蓝牙初始化失败",
+          icon: "error",
+          duration: 3000,
+        });
       },
     });
   }

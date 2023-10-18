@@ -20,6 +20,7 @@ import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
 
 import { get as getGlobalData } from "../global_data";
+import { Style } from "@tarojs/runtime";
 
 //设备名称
 type SettingList = {
@@ -32,6 +33,13 @@ type SettingList = {
 export default function Detail() {
   const [d_data, setDdata] = useState<string>(); //设备名称
 
+  const [styleLeft, setStyleLeft] = useState<React.CSSProperties>({
+    transform: `rotate(0deg)`,
+  });
+  const [styleRight, setStyleRight] = useState<React.CSSProperties>({
+    transform: `rotate(0deg)`,
+  });
+
   const [notify, setNotify] = useState<NofityData>({
     bat_V: 0,
     bat_A: 0,
@@ -41,13 +49,12 @@ export default function Detail() {
     sys_w: 0,
     sys: 0,
     bat_m: 0,
-    bat_per: 4,
+    bat_per: 100,
     bat_ntc: 0,
     software: 0,
     hardware: 0,
     bat_health: 0,
     bat_cir: 0,
-
     name: "",
   });
 
@@ -61,13 +68,16 @@ export default function Detail() {
 
   const data: any = Taro.getCurrentInstance(); //.router.params;
   const route = data.router.params;
-
-  var devicesData = decodeURI(route.devicesData);
+  var devicesData;
+  if (route.devicesData) {
+    devicesData = decodeURI(route.devicesData);
+  } else {
+    devicesData = JSON.stringify({ name: "" });
+  }
   const name: string = JSON.parse(devicesData).name;
 
   useLoad(() => {
     setDdata(name);
-    // console.log("globlea", getGlobalData("notify"));
     const globaldata = getGlobalData("notify");
     if (globaldata) {
       setNotify(globaldata);
@@ -77,13 +87,39 @@ export default function Detail() {
       const globaldata = getGlobalData("notify");
       if (globaldata) {
         setNotify(globaldata);
-        console.log("--");
       }
     }, 2000);
   });
 
+  function degTopercentage(p) {
+    let deg = 0;
+    if (p <= 50) {
+      deg = 180 * ((p * 2) / 100);
+      setStyleLeft({
+        transform: `rotate(${deg}deg)`,
+      });
+      setStyleRight({
+        transform: `rotate(0deg)`,
+      });
+    } else {
+      const a = p - 50;
+      deg = 180 * ((a * 2) / 100);
+      console.log("p", p);
+      console.log("a", 180 * 0.5);
+
+      console.log(deg);
+      setStyleLeft({
+        transform: `rotate(180deg)`,
+      });
+      setStyleRight({
+        transform: `rotate(${deg}deg)`,
+      });
+    }
+  }
+
   useEffect(() => {
     console.log("effect-notify", notify);
+    degTopercentage(notify.bat_per);
     setDevicesArray(() => {
       return [
         { name: "三元锂", label: "电池类型" },
@@ -158,6 +194,7 @@ export default function Detail() {
       url: "/pages/parameters/parameters",
     });
   }
+
   return (
     <View>
       <View className="topHeight"></View>
@@ -226,10 +263,10 @@ export default function Detail() {
                   </View>
                 </View>
                 <View className="left_box">
-                  <View className="left"></View>
+                  <View className="left" style={styleLeft}></View>
                 </View>
                 <View className="right_box">
-                  <View className="right"></View>
+                  <View className="right" style={styleRight}></View>
                 </View>
               </View>
             </View>

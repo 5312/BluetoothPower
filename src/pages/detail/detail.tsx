@@ -20,7 +20,6 @@ import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
 
 import { get as getGlobalData } from "../global_data";
-import { Style } from "@tarojs/runtime";
 
 //设备名称
 type SettingList = {
@@ -287,10 +286,12 @@ export default function Detail() {
           {setting3.map((item, i) => (
             <View className=" settingitem" key={i}>
               <Image className="iconimg" src={item.img}></Image>
-              <View className="name">{item.name}:</View>
-              <View className="value">
-                <Text className="name">{item.value}</Text>
-                <Text className="unit">{item.unit}</Text>
+              <View className="right">
+                <View className="value">
+                  <Text className="name">{item.value}</Text>
+                  <Text className="unit">{item.unit}</Text>
+                </View>
+                <View className="name">{item.name}</View>
               </View>
             </View>
           ))}

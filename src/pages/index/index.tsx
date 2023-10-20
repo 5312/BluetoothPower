@@ -50,7 +50,7 @@ function startBluetoothDevicesDiscovery() {
 
 export default function Index() {
   const [state, setState] = useState<Devices[]>([
-    {
+    /* {
       name: "",
       deviceId: "",
       localName: "",
@@ -59,7 +59,7 @@ export default function Index() {
       advertisServiceUUIDs: [],
       connectable: false,
       serviceData: {},
-    },
+    }, */
   ]);
   const [fabIcon, setfabIcon] = useState("at-icon-streaming");
   const [scaning, changeScan] = useState(false);

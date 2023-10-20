@@ -31,12 +31,13 @@ specifiers:
   eslint-plugin-import: ^2.12.0
   eslint-plugin-react: ^7.8.2
   eslint-plugin-react-hooks: ^4.2.0
+  moment: ^2.29.4
   postcss: ^8.4.18
   react: ^18.0.0
   react-dom: ^18.0.0
   react-refresh: ^0.11.0
   stylelint: ^14.4.0
-  taro-ui: 3.1.0-beta.5
+  taro-ui: 3.1.1
   ts-node: ^10.9.1
   typescript: ^4.1.0
   webpack: 5.78.0
@@ -57,9 +58,10 @@ dependencies:
   '@tarojs/runtime': 3.6.6
   '@tarojs/shared': 3.6.6
   '@tarojs/taro': 3.6.6_@types+react@18.2.5
+  moment: 2.29.4
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  taro-ui: 3.1.0-beta.5_xa4bowimrhvy3vmlnknvkzknqq
+  taro-ui: 3.1.1_xa4bowimrhvy3vmlnknvkzknqq
 
 devDependencies:
   '@babel/core': 7.21.8
@@ -3775,7 +3777,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
 
   /chrome-trace-event/1.0.3:
     resolution: {integrity: sha512-p3KULyQg4S7NIHixdwbGX+nFHkoBiA4YQmyWtjb8XngSKV124nJmRysgAeujbUVb15vh+RvFUfCPqU7rXk+hZg==}
@@ -4523,8 +4525,8 @@ packages:
       whatwg-url: 12.0.1
     dev: true
 
-  /dayjs/1.11.7:
-    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
+  /dayjs/1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
     dev: false
 
   /debug/2.6.9:
@@ -5949,8 +5951,8 @@ packages:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
 
-  /fsevents/2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents/2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -7853,6 +7855,10 @@ packages:
 
   /mobile-detect/1.4.5:
     resolution: {integrity: sha512-yc0LhH6tItlvfLBugVUEtgawwFU2sIe+cSdmRJJCTMZ5GEJyLxNyC/NIOAOGk67Fa8GNpOttO3Xz/1bHpXFD/g==}
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: false
 
   /ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
@@ -10302,8 +10308,8 @@ packages:
       postcss-value-parser: 3.3.1
     dev: true
 
-  /taro-ui/3.1.0-beta.5_xa4bowimrhvy3vmlnknvkzknqq:
-    resolution: {integrity: sha512-0DYh5EPKRAaO9NF6f0Xz2iqh556tX7dYQMecN71tLv8Dwh5jD5K41kRHhtV7OO8S5IVaBTicTEdkIJd+W5s8pw==}
+  /taro-ui/3.1.1_xa4bowimrhvy3vmlnknvkzknqq:
+    resolution: {integrity: sha512-mbVeBhguyVPr+FLyrlT+ABnpQIuqRB/xpKKZxbnpaCg8W2RDM7CKQW7VPehfzqD+jW57X21b0bcD2ALYBhQSQg==}
     peerDependencies:
       '@tarojs/components': '>=3'
       '@tarojs/react': '>=3'
@@ -10316,7 +10322,7 @@ packages:
       '@tarojs/react': 3.6.6_react@18.2.0
       '@tarojs/taro': 3.6.6_@types+react@18.2.5
       classnames: 2.3.2
-      dayjs: 1.11.7
+      dayjs: 1.11.10
       lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0

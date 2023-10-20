@@ -103,10 +103,7 @@ export default function Detail() {
     } else {
       const a = p - 50;
       deg = 180 * ((a * 2) / 100);
-      console.log("p", p);
-      console.log("a", 180 * 0.5);
 
-      console.log(deg);
       setStyleLeft({
         transform: `rotate(180deg)`,
       });
@@ -183,7 +180,7 @@ export default function Detail() {
   }, [notify]);
 
   function toindex() {
-    Taro.redirectTo({
+    Taro.reLaunch({
       url: "/pages/index/index",
     });
   }

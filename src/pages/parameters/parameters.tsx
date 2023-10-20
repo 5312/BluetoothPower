@@ -1,118 +1,119 @@
-import { View } from "@tarojs/components";
-import { AtIcon, AtSwitch, AtGrid } from "taro-ui";
-import "./parameters.less";
+import Taro from "@tarojs/taro";
 
-/* import gprs from "../../assets/settingicon/GPRS参数.png";
-import other from "../../assets/settingicon/其他参数.png";
-import changjia from "../../assets/settingicon/厂家参数.png";
-import junheng from "../../assets/settingicon/均衡参数.png";
-import kuaisushetting from "../../assets/settingicon/快速设置.png";
-import quanxian from "../../assets/settingicon/权限校验.png";
-import wendu from "../../assets/settingicon/温度参数.png";
-import dianya from "../../assets/settingicon/电压参数.png";
-import dianchi from "../../assets/settingicon/电池包参数.png";
-import dinaliu from "../../assets/settingicon/电流参数.png";
-import sys from "../../assets/settingicon/系统参数.png"; */
+import { View, Picker, Text } from "@tarojs/components";
+import moment from "moment";
+import { AtList, AtListItem, AtButton } from "taro-ui";
+import "./parameters.less";
+import { useState } from "react";
+import { get as getGlobalData } from "../global_data";
+
+function stringToBytes(str) {
+  var array = new Uint8Array(str.length);
+  for (var i = 0, l = str.length; i < l; i++) {
+    array[i] = str.charCodeAt(i);
+  }
+  return array.buffer;
+}
+
 export default function Parameters() {
-  /* switch click */
-  function handleChange() {}
-  const arr: IconList[] = [
-    { name: "权限效验", icon: "quanxian" /* icon: gprs  */ },
-    { name: "快速设置", icon: "shezhi" /* icon: other  */ },
-    { name: "电压参数", icon: "dianya" /* icon: changjia */ },
-    { name: "温度参数", icon: "wendu" /*  icon: junheng  */ },
-    { name: "电流参数", icon: "dianliu" /* icon: kuaisushetting  */ },
-    { name: "均衡参数", icon: "vlb" /*  icon: quanxian  */ },
-    { name: "电池包参数", icon: "dianchibao" /* icon: wendu  */ },
-    { name: "系统参数", icon: "xitong" /* icon: dianya */ },
-    { name: "其他参数", icon: "shezhi-xitongshezhi" /* icon: dianchi */ },
-    { name: "厂家参数", icon: "cailiaochangjia" /* icon: dinaliu  */ },
-    { name: "GPRS参数", icon: "GPRS" /*  icon: sys  */ },
-  ];
+  const [selector] = useState(["主题一", "主题二", "主题三"]);
+  const [selectorChecked, setselectorChecked] = useState("主题一");
+
+  function onChange(e) {
+    setselectorChecked(selector[e.detail.value]);
+  }
+
+  const [dateSel, setDateSel] = useState("");
+  function getTime() {
+    const time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    setDateSel(time);
+  }
+  setInterval(() => {
+    getTime();
+  }, 100);
+
+  const [array] = useState([30, 60, 90, 120]);
+  const [btsleeptime, setBtsleeptime] = useState(30);
+
+  function onbtsleeptimeChange(e) {
+    setBtsleeptime(array[e.detail.value]);
+  }
+
+  function save() {
+    const theme = selector.findIndex((item) => item == selectorChecked);
+
+    const eventParams = {
+      btthem: theme + 1,
+      btyear: moment(new Date()).format("YYYY"),
+      btmon: moment(new Date()).format("MM"),
+      btday: moment(new Date()).format("DD"),
+      bthour: moment(new Date()).format("HH"),
+      btmin: moment(new Date()).format("mm"),
+      btsec: moment(new Date()).format("ss"),
+      btweek: moment(new Date()).format("d"),
+      btsleeptime: btsleeptime,
+    };
+    console.log(eventParams);
+    // 向蓝牙设备发送一个0x00的16进制数据
+    let buffer = stringToBytes(JSON.stringify(eventParams)); // new ArrayBuffer();
+
+    console.log(buffer);
+
+    const { deviceId, serviceId, characteristicId } = getGlobalData("ID");
+    console.log("deviceId", deviceId);
+    console.log("serviceId", serviceId);
+    console.log("characteristicId", characteristicId);
+    Taro.writeBLECharacteristicValue({
+      // 这里的 deviceId 需要在 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
+      deviceId,
+      // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+      serviceId,
+      // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+      characteristicId,
+      // 这里的value是ArrayBuffer类型
+      value: buffer,
+      success: function (res) {
+        console.log("writeBLECharacteristicValue success", res.errMsg);
+      },
+    });
+  }
+  function cancel() {
+    // 在C页面内 navigateBack，将返回A页面
+    Taro.navigateBack({
+      delta: 1,
+    });
+  }
   return (
     <View>
-      <View className="height"></View>
-      <View className="cardbox">
-        <View className="at-row at-row__justify--between at-row--wrap">
-          {/* <View className="at-col at-col-5">左右排列</View> */}
-          {/* <View className="at-col at-col-5">Between</View> */}
-          {arr.map((item) => (
-            <View className="at-col at-col-6">
-              <View className="card">
-                <AtIcon
-                  prefixClass="iconfont"
-                  size="40"
-                  value={item.icon}
-                  className="at-icon icontransfrom"
-                  color="#4897ff"
-                ></AtIcon>
-                <View className="iconbname"> {item.name}</View>
-              </View>
-            </View>
-          ))}
-        </View>
+      <Picker mode="selector" range={selector} onChange={onChange}>
+        <AtList>
+          <AtListItem title="显示主题" extraText={selectorChecked} />
+        </AtList>
+      </Picker>
+      <View className="myItem">
+        <View className="item-content">时间校准</View>
+        <View className="item-extra">{dateSel}</View>
       </View>
-      <View className="cardbox">
-        <View className="shadwbox flex">
-          <View className="flex">
-            <AtIcon
-              prefixClass="iconfont"
-              value="dianchi-didianliang"
-              size="18"
-              className="at-icon icontransfrom"
-              color="#4897ff"
-            ></AtIcon>
-            <View>放电MOS</View>
-          </View>
-          <View className="sbg">
-            <AtSwitch checked={true} onChange={handleChange} />
-          </View>
-        </View>
-        <View className="shadwbox flex">
-          <View className="flex">
-            <AtIcon
-              prefixClass="iconfont"
-              value="chongdianzhong"
-              size="20"
-              className="at-icon"
-            ></AtIcon>
-            <View>充电MOS</View>
-          </View>
-          <View>
-            <AtSwitch onChange={handleChange} />
-          </View>
-        </View>
-        <View className="shadwbox flex">
-          <View className="flex">
-            <AtIcon
-              prefixClass="iconfont"
-              value="dianchi-didianliang"
-              size="18"
-              className="at-icon icontransfrom"
-              color="#4897ff"
-            ></AtIcon>
-            <View>放电MOS</View>
-          </View>
-          <View>
-            <AtSwitch checked={true} onChange={handleChange} />
-          </View>
-        </View>
-        <View className="shadwbox flex">
-          <View className="flex">
-            <AtIcon
-              prefixClass="iconfont"
-              value="chongdianzhong"
-              size="20"
-              className="at-icon"
-            ></AtIcon>
-            <View>充电MOS</View>
-          </View>
-          <View>
-            <AtSwitch onChange={handleChange} />
-          </View>
-        </View>
+      {/*  <AtList>
+        <AtListItem
+          title="休眠时间(秒)"
+          note="范围:0-65535，-1不休眠"
+          extraText="30"
+        />
+      </AtList> */}
+      <Picker mode="selector" range={array} onChange={onbtsleeptimeChange}>
+        <AtList>
+          <AtListItem title="休眠时间" extraText={`${btsleeptime}`} />
+        </AtList>
+      </Picker>
+      <View className="btnGroup">
+        <AtButton type="primary" onClick={save}>
+          确认
+        </AtButton>
+        <AtButton type="secondary" onClick={cancel}>
+          取消
+        </AtButton>
       </View>
-      <View className="hbottom"></View>
     </View>
   );
 }

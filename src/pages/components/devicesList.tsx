@@ -108,8 +108,8 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
       serviceId: sid,
       success: function (res) {
         const characteristics = res.characteristics;
-        const receive = characteristics[0].uuid; //  "6E400003-B5A3-F393-E0A9-E50E24DCCA9E";
-        // const send = "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"; //characteristics[1].uuid;
+        const receive = characteristics[0].uuid;
+
         console.log("read03---", characteristics[0].properties.read);
         console.log("read02---", characteristics[1].properties.read);
         Taro.notifyBLECharacteristicValueChange({
@@ -126,8 +126,13 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
               const uint8Array = new Uint8Array(arrayBuffer);
               // 将 Uint8Array 转换为字符串
               const resultString = String.fromCharCode.apply(null, uint8Array);
-              console.log("数据", JSON.parse(resultString));
+              // console.log("数据", JSON.parse(resultString));
               setGlobalData("notify", strToData(resultString));
+              setGlobalData("ID", {
+                deviceId: id,
+                serviceId: sid,
+                characteristicId: characteristics[1].uuid, // write 特征值
+              });
               setOmitInformation(strToData(resultString));
             });
           },

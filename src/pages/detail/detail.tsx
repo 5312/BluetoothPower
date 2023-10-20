@@ -6,7 +6,6 @@ import { useLoad } from "@tarojs/taro";
 
 import "./detail.less";
 
-import devices from "../../assets/devices.png";
 import dianyaDisabled from "../../assets/dianya-disabled.png";
 import dianliu from "../../assets/dianya-copy.png";
 import gl from "../../assets/gl.png";
@@ -214,7 +213,8 @@ export default function Detail() {
           </View>
         </View>
         <View className="center">
-          <Image className="img" src={devices}></Image>
+          {/*  <Image className="img" src={devices}></Image> */}
+          <View className="bgimgDevice"></View>
           <View className="text">
             {devicesArray.map((item, i) => (
               <View className="label" key={i}>
@@ -278,6 +278,7 @@ export default function Detail() {
           </View>
         </View>
       </View>
+
       <View className="card mt">
         <View className="settinglist">
           {setting3.map((item, i) => (

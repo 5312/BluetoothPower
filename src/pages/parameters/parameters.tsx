@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 
-import { View, Picker, Text } from "@tarojs/components";
+import { View, Picker } from "@tarojs/components";
 import moment from "moment";
 import { AtList, AtListItem, AtButton } from "taro-ui";
 import "./parameters.less";

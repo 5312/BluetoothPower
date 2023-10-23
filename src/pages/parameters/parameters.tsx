@@ -50,19 +50,15 @@ export default function Parameters() {
       bthour: moment(new Date()).format("HH"),
       btmin: moment(new Date()).format("mm"),
       btsec: moment(new Date()).format("ss"),
-      btweek: moment(new Date()).format("d"),
+      btweek: moment(new Date()).format("E"),
       btsleeptime: btsleeptime,
     };
     console.log(eventParams);
     // 向蓝牙设备发送一个0x00的16进制数据
     let buffer = stringToBytes(JSON.stringify(eventParams)); // new ArrayBuffer();
 
-    console.log(buffer);
-
     const { deviceId, serviceId, characteristicId } = getGlobalData("ID");
-    console.log("deviceId", deviceId);
-    console.log("serviceId", serviceId);
-    console.log("characteristicId", characteristicId);
+
     Taro.writeBLECharacteristicValue({
       // 这里的 deviceId 需要在 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
       deviceId,
@@ -74,6 +70,12 @@ export default function Parameters() {
       value: buffer,
       success: function (res) {
         console.log("writeBLECharacteristicValue success", res.errMsg);
+        Taro.showToast({
+          title: "发送成功",
+          icon: "error",
+          duration: 2000,
+        });
+        cancel();
       },
     });
   }

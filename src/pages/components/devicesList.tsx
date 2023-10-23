@@ -1,7 +1,8 @@
 import Taro from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import React, { useState } from "react";
-import { strToData } from "../..//util/util";
+import { strToData, ab2hex } from "../..//util/util";
+
 import "./devicesList.less";
 import blueTooth from "../../assets/bluetooth.png";
 import blueTooth1 from "../../assets/bluetooth1.png";
@@ -59,15 +60,30 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
     Taro.createBLEConnection({
       deviceId,
       success: () => {
-        onBleConnectState(); //监听蓝牙连接状态
-        getBLEDeviceServices(deviceId); //获取蓝牙设备所有 service（服务）
-        setState("已连接");
-
         Taro.showToast({
           title: "连接成功",
           icon: "success",
           duration: 3000,
         });
+        setTimeout(() => {
+          Taro.setBLEMTU({
+            deviceId,
+            mtu: 512,
+            success: () => {
+              Taro.showToast({
+                title: "mtu 设置成功",
+                icon: "success",
+                duration: 3000,
+              });
+            },
+          });
+        }, 500);
+
+        onBleConnectState(); //监听蓝牙连接状态
+        getBLEDeviceServices(deviceId); //获取蓝牙设备所有 service（服务）
+        setState("已连接");
+
+        stopBluetoothDevicesDiscovery();
       },
       fail: function (res) {
         console.log("连接蓝牙设备失败", res);
@@ -124,9 +140,13 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
 
               // 将 ArrayBuffer 转换为 Uint8Array
               const uint8Array = new Uint8Array(arrayBuffer);
+
               // 将 Uint8Array 转换为字符串
               const resultString = String.fromCharCode.apply(null, uint8Array);
+
+              // console.log("json", resultString);
               // console.log("数据", JSON.parse(resultString));
+
               setGlobalData("notify", strToData(resultString));
               setGlobalData("ID", {
                 deviceId: id,

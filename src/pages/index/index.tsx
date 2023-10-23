@@ -92,7 +92,7 @@ export default function Index() {
       },
       fail: function () {
         Taro.showToast({
-          title: "蓝牙初始化失败",
+          title: "请检测蓝牙权限与设置",
           icon: "error",
           duration: 3000,
         });

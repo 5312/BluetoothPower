@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import React, { useState } from "react";
-import { strToData, ab2hex } from "../..//util/util";
+import { strToData } from "../..//util/util";
 
 import "./devicesList.less";
 import blueTooth from "../../assets/bluetooth.png";

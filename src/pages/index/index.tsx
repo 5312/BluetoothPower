@@ -49,7 +49,7 @@ function startBluetoothDevicesDiscovery() {
 }
 export default function Index() {
   const [state, setState] = useState<Devices[]>([
-    /* {
+    /*     {
       name: "DBT01",
       deviceId: "",
       localName: "",

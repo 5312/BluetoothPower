@@ -1,6 +1,6 @@
 import { View, Text } from "@tarojs/components";
 import DevicesList from "../components/devicesList";
-import { useLoad, useUnload } from "@tarojs/taro";
+import { useUnload } from "@tarojs/taro";
 import { useState } from "react";
 import Taro from "@tarojs/taro";
 import { AtFab } from "taro-ui";
@@ -47,11 +47,20 @@ function startBluetoothDevicesDiscovery() {
     },
   });
 }
-
 export default function Index() {
   const [state, setState] = useState<Devices[]>([
-    /* {
-      name: "",
+    /*  {
+      name: "DBT01",
+      deviceId: "",
+      localName: "",
+      RSSI: 0,
+      advertisData: new ArrayBuffer(1),
+      advertisServiceUUIDs: [],
+      connectable: false,
+      serviceData: {},
+    },
+    {
+      name: "DBT02",
       deviceId: "",
       localName: "",
       RSSI: 0,
@@ -62,11 +71,6 @@ export default function Index() {
     }, */
   ]);
   const [fabIcon, setfabIcon] = useState("at-icon-streaming");
-  const [scaning, changeScan] = useState(false);
-
-  useLoad(() => {
-    console.log("Page loaded.");
-  });
 
   useUnload(() => {
     Taro.closeBluetoothAdapter({
@@ -75,6 +79,8 @@ export default function Index() {
       },
     });
   });
+
+  const [scaning, changeScan] = useState(false);
   // 初始化蓝牙
   async function bluetoothStar() {
     if (!isOpenBlueth()) return;
@@ -128,6 +134,7 @@ export default function Index() {
       },
     });
   }
+
   return (
     <View className="index">
       <View className="topHeight"></View>

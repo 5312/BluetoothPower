@@ -160,6 +160,19 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
       },
     });
   }
+
+  const style1 = {
+    backgroundPosition: "50% -10%",
+    backgroundSize: "140%",
+    backgroundRepeat: "noRepeat",
+    backgroundImage: "url(../../assets/devices.jpg)",
+  };
+  const style2 = {
+    backgroundPosition: "50% 50%",
+    backgroundSize: "80%",
+    backgroundRepeat: "noRepeat",
+    backgroundImage: "url(../../assets/devices2.jpg)",
+  };
   return (
     <View className="card" onClick={toDetail}>
       <View className="position-num">
@@ -215,7 +228,10 @@ const DevicesList: React.FC<DevicesProps> = (props) => {
             </View>
           </View>
         </View>
-        <View className="deviceBg"></View>
+        <View
+          className="deviceBg"
+          style={devicesData.name == "DBT01" ? style1 : style2}
+        ></View>
       </View>
     </View>
   );

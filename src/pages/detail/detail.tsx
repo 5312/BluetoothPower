@@ -18,6 +18,11 @@ import wendu from "../../assets/wendu.png";
 import xtdy from "../../assets/xtdy.png";
 import xtdl from "../../assets/xtdl.png";
 
+// import device from "../../assets/devices.jpg";
+// import device2 from "../../assets/devices2.jpg";
+import base from "../base64";
+
+const { devices, devices2 } = base;
 import { get as getGlobalData } from "../global_data";
 
 //设备名称
@@ -189,7 +194,18 @@ export default function Detail() {
       url: "/pages/parameters/parameters",
     });
   }
-
+  const style1 = {
+    backgroundPosition: "50% -10%",
+    backgroundSize: "140%",
+    backgroundRepeat: "noRepeat",
+    backgroundImage: `url(${devices})`, //"url(../../assets/devices.jpg)",
+  };
+  const style2 = {
+    backgroundPosition: "50% 50%",
+    backgroundSize: "80%",
+    backgroundRepeat: "noRepeat",
+    backgroundImage: `url(${devices2})`, // "url(../../assets/devices2.jpg)",
+  };
   return (
     <View>
       <View className="topHeight"></View>
@@ -213,8 +229,10 @@ export default function Detail() {
           </View>
         </View>
         <View className="center">
-          {/*  <Image className="img" src={devices}></Image> */}
-          <View className="bgimgDevice"></View>
+          <View
+            className="bgimgDevice"
+            style={devicesData.name == "DBT01" ? style1 : style2}
+          ></View>
           <View className="text">
             {devicesArray.map((item, i) => (
               <View className="label" key={i}>
